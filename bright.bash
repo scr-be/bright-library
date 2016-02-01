@@ -57,7 +57,7 @@ function bright_out_builder()
         shift || break
     done
 
-    echo -e "$out"
+    echo -ne "$out"
     return 0
 }
 
@@ -120,99 +120,99 @@ function bright_get_color_bg()
 }
 
 function bright_out_default() {
-    bright_out_builder "$1" "control:default foreground"
+    bright_out_builder "$1\n" "control:default foreground"
 }
 
 function bright_out_default_bg() {
-    bright_out_builder "$1" "control:default background"
+    bright_out_builder "$1\n" "control:default background"
 }
 
 function bright_out_escape() {
-    bright_out_builder "$1" "control:control escape"
+    bright_out_builder "$1\n" "control:control escape"
 }
 
 function bright_out_underline() {
-    bright_out_builder "$1" "control:style underline"
+    bright_out_builder "$1\n" "control:style underline"
 }
 
 function bright_out_reverse() {
-    bright_out_builder "$1" "control:style reverse"
+    bright_out_builder "$1\n" "control:style reverse"
 }
 
 function bright_out_bold() {
-    bright_out_builder "$1" "control:style bold"
+    bright_out_builder "$1\n" "control:style bold"
 }
 
 function bright_out_bright() {
-    bright_out_builder "$1" "control:style bright"
+    bright_out_builder "$1\n" "control:style bright"
 }
 
 function bright_out_underscore() {
-    bright_out_builder "$1" "control:style underscore"
+    bright_out_builder "$1\n" "control:style underscore"
 }
 
 function bright_out_black() {
-    bright_out_builder "$1" "color:black"
+    bright_out_builder "$1\n" "color:black"
 }
 
 function bright_out_red() {
-    bright_out_builder "$1" "color:red"
+    bright_out_builder "$1\n" "color:red"
 }
 
 function bright_out_green() {
-    bright_out_builder "$1" "color:green"
+    bright_out_builder "$1\n" "color:green"
 }
 
 function bright_out_brown() {
-    bright_out_builder "$1" "color:brown"
+    bright_out_builder "$1\n" "color:brown"
 }
 
 function bright_out_blue() {
-    bright_out_builder "$1" "color:blue"
+    bright_out_builder "$1\n" "color:blue"
 }
 
 function bright_out_magenta() {
-    bright_out_builder "$1" "color:magenta"
+    bright_out_builder "$1\n" "color:magenta"
 }
 
 function bright_out_cyan() {
-    bright_out_builder "$1" "color:cyan"
+    bright_out_builder "$1\n" "color:cyan"
 }
 
 function bright_out_white() {
-    bright_out_builder "$1" "color:white"
+    bright_out_builder "$1\n" "color:white"
 }
 
 function bright_out_black_bg() {
-    bright_out_builder "$1" "color_bg:black"
+    bright_out_builder "$1\n" "color_bg:black"
 }
 
 function bright_out_red_bg() {
-    bright_out_builder "$1" "color_bg:red"
+    bright_out_builder "$1\n" "color_bg:red"
 }
 
 function bright_out_green_bg() {
-    bright_out_builder "$1" "color_bg:green"
+    bright_out_builder "$1\n" "color_bg:green"
 }
 
 function bright_out_brown_bg() {
-    bright_out_builder "$1" "color_bg:brown"
+    bright_out_builder "$1\n" "color_bg:brown"
 }
 
 function bright_out_blubg() {
-    bright_out_builder "$1" "color_bg:blue"
+    bright_out_builder "$1\n" "color_bg:blue"
 }
 
 function bright_out_magenta_bg() {
-    bright_out_builder "$1" "color_bg:magenta"
+    bright_out_builder "$1\n" "color_bg:magenta"
 }
 
 function bright_out_cyan_bg() {
-    bright_out_builder "$1" "color_bg:cyan"
+    bright_out_builder "$1\n" "color_bg:cyan"
 }
 
 function bright_out_whitbg() {
-    bright_out_builder "$1" "color_bg:white"
+    bright_out_builder "$1\n" "color_bg:white"
 }
 
 # EOF
