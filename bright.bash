@@ -9,164 +9,210 @@
 # file distributed with this source code.
 ##
 
-function _bright_resolve()
+function _bright_error()
+{
+    local mesg="[${1:-unset_function}] ${2:-unspecified exception}"
+    local args
+
+    while [ $# != 2 ] && [ "$3" != false ]; do
+        args+="\"$3\","
+        shift
+    done
+
+    [ "$args" ] && mesg+=" (got ${args:0:-1})"
+    echo "$mesg" >&2
+
+    [ "$stop" == "true" ] && exit $retint
+    return $retint
+}
+
+function bright_map_resolver()
 {
     local -n map="$1"
     local    key="$2"
 
     if [ ! ${map[$key]+_} ]; then
-        echo "_bright_resolve: argument \"$key\" is out of range" >&2
-        return 1
+        _bright_error $FUNCNAME "argument is out of range" "$key" || return $?
     fi
 
     echo ${map[$key]}
 }
 
-function _bright_escape
+function bright_out_builder()
 {
-    local esc="\033["
-    local str="$1"
+    local out="$1"
 
     until [ -z "$2" ]; do
-        if ! [ $2 -ge 0 -a $2 -le 47 ] 2>/dev/null; then
-            echo "_bright_escape: argument \"$2\" is out of range" >&2
-            return 1
+        IFS=\: read -a part <<<"$2"
+
+        cmd="bright_get_${part[0]}"
+        ret="$($cmd "${part[1]}")"
+
+        if ! [ $ret -ge 0 -a $ret -le 50 ]; then
+            _bright_error $FUNCNAME "expected range 0 through 50" "$ret" || return $?
         fi
 
-        str="${esc}${2}m${str}${esc}$(bright_get_control escape)m"
+        out="\033[${ret}m${out}\033[0m"
 
         shift || break
     done
 
-    echo -e "$str"
-}
-
-function bright_get_color()
-{
-    local    _key="$1"
-    local -A _color=( [black]=30 [red]=31 [green]=32 [brown]=33 [blue]=34 [magenta]=35 [cyan]=36 [white]=37 )
-
-    _bright_resolve _color $_key
-}
-
-function bright_get_bgcolor()
-{
-    local    _key="$1"
-    local -A _bgcolor=( [black]=40 [red]=41 [green]=42 [brown]=43 [blue]=44 [magenta]=45 [cyan]=46 [white]=47 )
-
-    _bright_resolve _bgcolor $_key
+    echo -e "$out"
+    return 0
 }
 
 function bright_get_control()
 {
-    local    _key=$1
-    local -A _control=( [escape]=0 [underline]=24 [reverse]=27 [bold]=1 [bright]=2 [underscore]=4 [reverse]=7 )
+    local    control_name="$1"
+    local -A controls=(
+        [control escape]=0
+        [style underline]=24
+        [style reverse]=27
+        [style bold]=1
+        [style bright]=2
+        [style underscore]=4
+        [style reverse]=7
+        [default foreground]=39
+        [default background]=49
+    )
 
-    _bright_resolve _control $_key
+    bright_map_resolver controls "$control_name"
+    return $?
 }
 
-function bright_get_default()
+function bright_get_color()
 {
-    local    _key=$1
-    local -A _default=( [fg]=39 [bg]=49 )
+    local    color_name="$1"
+    local    color_type="${2:-foreground}"
+    local -A colors=(
+        [foreground black]=30
+        [foreground red]=31
+        [foreground green]=32
+        [foreground brown]=33
+        [foreground blue]=34
+        [foreground magenta]=35
+        [foreground cyan]=36
+        [foreground white]=37
+        [background black]=40
+        [background red]=41
+        [background green]=42
+        [background brown]=43
+        [background blue]=44
+        [background magenta]=45
+        [background cyan]=46
+        [background white]=47
+    )
 
-    _bright_resolve _default $_key
+    case "$color_type" in
+        foreground ) color_name="foreground $color_name" ;;
+        background ) color_name="background $color_name" ;;
+        * ) _bright_error $FUNCNAME "expected fore- or background but got" "$color_type" || return $? ;;
+    esac
+
+    bright_map_resolver colors "$color_name"
+    return $?
 }
 
-function bright_escape() {
-    _bright_escape "$1" $(bright_get_control escape)
+function bright_get_color_bg()
+{
+    bright_get_color "$1" background
+    return $?
 }
 
-function bright_default() {
-    _bright_escape "$1" $(bright_get_default fg)
+function bright_out_default() {
+    bright_out_builder "$1" "control:default foreground"
 }
 
-function bright_bgdefault() {
-    _bright_escape "$1" $(bright_get_default bg)
+function bright_out_default_bg() {
+    bright_out_builder "$1" "control:default background"
 }
 
-function bright_underline() {
-    _bright_escape "$1" $(bright_get_control underline)
+function bright_out_escape() {
+    bright_out_builder "$1" "control:control escape"
 }
 
-function bright_reverse() {
-    _bright_escape "$1" $(bright_get_control reverse)
+function bright_out_underline() {
+    bright_out_builder "$1" "control:style underline"
 }
 
-function bright_bold() {
-    _bright_escape "$1" $(bright_get_control bold)
+function bright_out_reverse() {
+    bright_out_builder "$1" "control:style reverse"
 }
 
-function bright_bright() {
-    _bright_escape "$1" $(bright_get_control bright)
+function bright_out_bold() {
+    bright_out_builder "$1" "control:style bold"
 }
 
-function bright_underscore() {
-    _bright_escape "$1" $(bright_get_control underscore)
+function bright_out_bright() {
+    bright_out_builder "$1" "control:style bright"
 }
 
-function bright_black() {
-    _bright_escape "$1" $(bright_get_color black)
+function bright_out_underscore() {
+    bright_out_builder "$1" "control:style underscore"
 }
 
-function bright_red() {
-    _bright_escape "$1" $(bright_get_color red)
+function bright_out_black() {
+    bright_out_builder "$1" "color:black"
 }
 
-function bright_green() {
-    _bright_escape "$1" $(bright_get_color green)
+function bright_out_red() {
+    bright_out_builder "$1" "color:red"
 }
 
-function bright_brown() {
-    _bright_escape "$1" $(bright_get_color brown)
+function bright_out_green() {
+    bright_out_builder "$1" "color:green"
 }
 
-function bright_blue() {
-    _bright_escape "$1" $(bright_get_color blue)
+function bright_out_brown() {
+    bright_out_builder "$1" "color:brown"
 }
 
-function bright_magenta() {
-    _bright_escape "$1" $(bright_get_color magenta)
+function bright_out_blue() {
+    bright_out_builder "$1" "color:blue"
 }
 
-function bright_cyan() {
-    _bright_escape "$1" $(bright_get_color cyan)
+function bright_out_magenta() {
+    bright_out_builder "$1" "color:magenta"
 }
 
-function bright_white() {
-    _bright_escape "$1" $(bright_get_color white)
+function bright_out_cyan() {
+    bright_out_builder "$1" "color:cyan"
 }
 
-function bright_bg_black() {
-    _bright_escape "$1" $(bright_get_bgcolor black)
+function bright_out_white() {
+    bright_out_builder "$1" "color:white"
 }
 
-function bright_bg_red() {
-    _bright_escape "$1" $(bright_get_bgcolor red)
+function bright_out_black_bg() {
+    bright_out_builder "$1" "color_bg:black"
 }
 
-function bright_bg_green() {
-    _bright_escape "$1" $(bright_get_bgcolor green)
+function bright_out_red_bg() {
+    bright_out_builder "$1" "color_bg:red"
 }
 
-function bright_bg_brown() {
-    _bright_escape "$1" $(bright_get_bgcolor brown)
+function bright_out_green_bg() {
+    bright_out_builder "$1" "color_bg:green"
 }
 
-function bright_bg_blue() {
-    _bright_escape "$1" $(bright_get_bgcolor blue)
+function bright_out_brown_bg() {
+    bright_out_builder "$1" "color_bg:brown"
 }
 
-function bright_bg_magenta() {
-    _bright_escape "$1" $(bright_get_bgcolor magenta)
+function bright_out_blubg() {
+    bright_out_builder "$1" "color_bg:blue"
 }
 
-function bright_bg_cyan() {
-    _bright_escape "$1" $(bright_get_bgcolor cyan)
+function bright_out_magenta_bg() {
+    bright_out_builder "$1" "color_bg:magenta"
 }
 
-function bright_bg_white() {
-    _bright_escape "$1" $(bright_get_bgcolor white)
+function bright_out_cyan_bg() {
+    bright_out_builder "$1" "color_bg:cyan"
+}
+
+function bright_out_whitbg() {
+    bright_out_builder "$1" "color_bg:white"
 }
 
 # EOF
