@@ -1,11 +1,13 @@
 #!/bin/bash
 
+##
+# This file is part of the `bright-library` package.
 #
-# Bight: Bash Color Library
+# (c) Rob Frawley 2nd <rmf@src.run>
 #
-# MIT License
-# Copyright 2016 Rob Frawley <rmf@src.run>
-#
+# For the full copyright and license information, view the LICENSE.md
+# file distributed with this source code.
+##
 
 function _bright_resolve()
 {
