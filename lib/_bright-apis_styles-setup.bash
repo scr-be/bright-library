@@ -34,7 +34,7 @@ function set_bold()
 function out_bold()
 {
     _bright_str_builder_output "$1" "style:bold ${2:-}"
-    _bright_out_newline
+    _bright_auto_newline
     return $?
 }
 
@@ -63,7 +63,7 @@ function set_bright()
 function out_bright()
 {
     _bright_str_builder_output "$1" "style:bright ${2:-}"
-    _bright_out_newline
+    _bright_auto_newline
     return $?
 }
 
@@ -92,7 +92,7 @@ function set_dim()
 function out_dim()
 {
     _bright_str_builder_output "$1" "style:dim ${2:-}"
-    _bright_out_newline
+    _bright_auto_newline
     return $?
 }
 
@@ -121,7 +121,7 @@ function set_underline()
 function out_underline()
 {
     _bright_str_builder_output "$1" "style:underline ${2:-}"
-    _bright_out_newline
+    _bright_auto_newline
     return $?
 }
 
@@ -150,7 +150,7 @@ function set_blink()
 function out_blink()
 {
     _bright_str_builder_output "$1" "style:blink ${2:-}"
-    _bright_out_newline
+    _bright_auto_newline
     return $?
 }
 
@@ -179,7 +179,7 @@ function set_reverse()
 function out_reverse()
 {
     _bright_str_builder_output "$1" "style:reverse ${2:-}"
-    _bright_out_newline
+    _bright_auto_newline
     return $?
 }
 
@@ -208,6 +208,6 @@ function set_hidden()
 function out_hidden()
 {
     _bright_str_builder_output "$1" "style:hidden ${2:-}"
-    _bright_out_newline
+    _bright_auto_newline
     return $?
 }

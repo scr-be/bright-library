@@ -1,0 +1,24 @@
+{
+  "name": "bash-bright-library",
+  "license": "MIT",
+  "author": "Rob Frawley 2nd <rmf@src.run>",
+  "version": "2.0.0",
+  "description": "A light-weight collection of bash functions providing console output styles (via colors and other styles).",
+  "dependencies": {},
+  "devDependencies": {
+    "bats": "git+https://github.com/ztombol/bats.git",
+    "bats-assert": "git+https://github.com/ztombol/bats-assert.git",
+    "bats-support": "git+https://github.com/ztombol/bats-support.git"
+  },
+  "scripts": {
+    "test": "bats test"
+  },
+  "homepage": "https://github.com/src-run/bash-bright-library#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/src-run/bash-bright-library.git"
+  },
+  "bugs": {
+    "url": "https://github.com/src-run/bash-bright-library/issues"
+  }
+}

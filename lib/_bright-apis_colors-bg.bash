@@ -17,9 +17,9 @@
 #
 # @return int
 #
-function set_default_fg()
+function set_bg_default()
 {
-    _bright_str_builder_assign "fg:default ${2:-}"
+    _bright_str_builder_assign "bg:default ${2:-}"
     return $?
 }
 
@@ -31,10 +31,10 @@ function set_default_fg()
 #
 # @return int
 #
-function out_default_fg()
+function out_bg_default()
 {
-    _bright_str_builder_output "$1" "fg:default ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:default ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -46,9 +46,9 @@ function out_default_fg()
 #
 # @return int
 #
-function set_black()
+function set_bg_black()
 {
-    _bright_str_builder_assign "fg:black ${2:-}"
+    _bright_str_builder_assign "bg:black ${2:-}"
     return $?
 }
 
@@ -60,10 +60,10 @@ function set_black()
 #
 # @return int
 #
-function out_black()
+function out_bg_black()
 {
-    _bright_str_builder_output "$1" "fg:black ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:black ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -75,9 +75,9 @@ function out_black()
 #
 # @return int
 #
-function set_red()
+function set_bg_red()
 {
-    _bright_str_builder_assign "fg:red ${2:-}"
+    _bright_str_builder_assign "bg:red ${2:-}"
     return $?
 }
 
@@ -89,10 +89,10 @@ function set_red()
 #
 # @return int
 #
-function out_red()
+function out_bg_red()
 {
-    _bright_str_builder_output "$1" "fg:red ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:red ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -104,9 +104,9 @@ function out_red()
 #
 # @return int
 #
-function set_green()
+function set_bg_green()
 {
-    _bright_str_builder_assign "fg:green ${2:-}"
+    _bright_str_builder_assign "bg:green ${2:-}"
     return $?
 }
 
@@ -118,10 +118,10 @@ function set_green()
 #
 # @return int
 #
-function out_green()
+function out_bg_green()
 {
-    _bright_str_builder_output "$1" "fg:green ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:green ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -133,9 +133,9 @@ function out_green()
 #
 # @return int
 #
-function set_yellow()
+function set_bg_yellow()
 {
-    _bright_str_builder_assign "fg:yellow ${2:-}"
+    _bright_str_builder_assign "bg:yellow ${2:-}"
     return $?
 }
 
@@ -147,10 +147,10 @@ function set_yellow()
 #
 # @return int
 #
-function out_yellow()
+function out_bg_yellow()
 {
-    _bright_str_builder_output "$1" "fg:yellow ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:yellow ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -162,9 +162,9 @@ function out_yellow()
 #
 # @return int
 #
-function set_blue()
+function set_bg_blue()
 {
-    _bright_str_builder_assign "fg:blue ${2:-}"
+    _bright_str_builder_assign "bg:blue ${2:-}"
     return $?
 }
 
@@ -176,10 +176,10 @@ function set_blue()
 #
 # @return int
 #
-function out_blue()
+function out_bg_blue()
 {
-    _bright_str_builder_output "$1" "fg:blue ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:blue ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -191,9 +191,9 @@ function out_blue()
 #
 # @return int
 #
-function set_magenta()
+function set_bg_magenta()
 {
-    _bright_str_builder_assign "fg:magenta ${2:-}"
+    _bright_str_builder_assign "bg:magenta ${2:-}"
     return $?
 }
 
@@ -205,10 +205,10 @@ function set_magenta()
 #
 # @return int
 #
-function out_magenta()
+function out_bg_magenta()
 {
-    _bright_str_builder_output "$1" "fg:magenta ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:magenta ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -220,9 +220,9 @@ function out_magenta()
 #
 # @return int
 #
-function set_cyan()
+function set_bg_cyan()
 {
-    _bright_str_builder_assign "fg:cyan ${2:-}"
+    _bright_str_builder_assign "bg:cyan ${2:-}"
     return $?
 }
 
@@ -234,10 +234,10 @@ function set_cyan()
 #
 # @return int
 #
-function out_cyan()
+function out_bg_cyan()
 {
-    _bright_str_builder_output "$1" "fg:cyan ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:cyan ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -249,9 +249,9 @@ function out_cyan()
 #
 # @return int
 #
-function set_white()
+function set_bg_white()
 {
-    _bright_str_builder_assign "fg:white ${2:-}"
+    _bright_str_builder_assign "bg:white ${2:-}"
     return $?
 }
 
@@ -263,10 +263,10 @@ function set_white()
 #
 # @return int
 #
-function out_white()
+function out_bg_white()
 {
-    _bright_str_builder_output "$1" "fg:white ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:white ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -278,9 +278,9 @@ function out_white()
 #
 # @return int
 #
-function set_light_black()
+function set_bg_light_black()
 {
-    _bright_str_builder_assign "fg:light-black ${2:-}"
+    _bright_str_builder_assign "bg:light-black ${2:-}"
     return $?
 }
 
@@ -292,10 +292,10 @@ function set_light_black()
 #
 # @return int
 #
-function out_light_black()
+function out_bg_light_black()
 {
-    _bright_str_builder_output "$1" "fg:light-black ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-black ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -307,9 +307,9 @@ function out_light_black()
 #
 # @return int
 #
-function set_light_red()
+function set_bg_light_red()
 {
-    _bright_str_builder_assign "fg:light-red ${2:-}"
+    _bright_str_builder_assign "bg:light-red ${2:-}"
     return $?
 }
 
@@ -321,10 +321,10 @@ function set_light_red()
 #
 # @return int
 #
-function out_light_red()
+function out_bg_light_red()
 {
-    _bright_str_builder_output "$1" "fg:light-red ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-red ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -336,9 +336,9 @@ function out_light_red()
 #
 # @return int
 #
-function set_light_green()
+function set_bg_light_green()
 {
-    _bright_str_builder_assign "fg:light-green ${2:-}"
+    _bright_str_builder_assign "bg:light-green ${2:-}"
     return $?
 }
 
@@ -350,10 +350,10 @@ function set_light_green()
 #
 # @return int
 #
-function out_light_green()
+function out_bg_light_green()
 {
-    _bright_str_builder_output "$1" "fg:light-green ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-green ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -365,9 +365,9 @@ function out_light_green()
 #
 # @return int
 #
-function set_light_yellow()
+function set_bg_light_yellow()
 {
-    _bright_str_builder_assign "fg:light-yellow ${2:-}"
+    _bright_str_builder_assign "bg:light-yellow ${2:-}"
     return $?
 }
 
@@ -379,10 +379,10 @@ function set_light_yellow()
 #
 # @return int
 #
-function out_light_yellow()
+function out_bg_light_yellow()
 {
-    _bright_str_builder_output "$1" "fg:light-yellow ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-yellow ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -394,9 +394,9 @@ function out_light_yellow()
 #
 # @return int
 #
-function set_light_blue()
+function set_bg_light_blue()
 {
-    _bright_str_builder_assign "fg:light-blue ${2:-}"
+    _bright_str_builder_assign "bg:light-blue ${2:-}"
     return $?
 }
 
@@ -408,10 +408,10 @@ function set_light_blue()
 #
 # @return int
 #
-function out_light_blue()
+function out_bg_light_blue()
 {
-    _bright_str_builder_output "$1" "fg:light-blue ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-blue ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -423,9 +423,9 @@ function out_light_blue()
 #
 # @return int
 #
-function set_light_magenta()
+function set_bg_light_magenta()
 {
-    _bright_str_builder_assign "fg:light-magenta ${2:-}"
+    _bright_str_builder_assign "bg:light-magenta ${2:-}"
     return $?
 }
 
@@ -437,10 +437,10 @@ function set_light_magenta()
 #
 # @return int
 #
-function out_light_magenta()
+function out_bg_light_magenta()
 {
-    _bright_str_builder_output "$1" "fg:light-magenta ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-magenta ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -452,9 +452,9 @@ function out_light_magenta()
 #
 # @return int
 #
-function set_light_cyan()
+function set_bg_light_cyan()
 {
-    _bright_str_builder_assign "fg:light-cyan ${2:-}"
+    _bright_str_builder_assign "bg:light-cyan ${2:-}"
     return $?
 }
 
@@ -466,10 +466,10 @@ function set_light_cyan()
 #
 # @return int
 #
-function out_light_cyan()
+function out_bg_light_cyan()
 {
-    _bright_str_builder_output "$1" "fg:light-cyan ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-cyan ${2:-}"
+    _bright_auto_newline
     return $?
 }
 
@@ -481,9 +481,9 @@ function out_light_cyan()
 #
 # @return int
 #
-function set_light_white()
+function set_bg_light_white()
 {
-    _bright_str_builder_assign "fg:light-white ${2:-}"
+    _bright_str_builder_assign "bg:light-white ${2:-}"
     return $?
 }
 
@@ -495,9 +495,9 @@ function set_light_white()
 #
 # @return int
 #
-function out_light_white()
+function out_bg_light_white()
 {
-    _bright_str_builder_output "$1" "fg:light-white ${2:-}"
-    _bright_out_newline
+    _bright_str_builder_output "$1" "bg:light-white ${2:-}"
+    _bright_auto_newline
     return $?
 }

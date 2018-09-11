@@ -18,21 +18,28 @@
 #
 function set_custom()
 {
-    _bright_str_builder_assign "$1"
+    local command="${1:-}"
+
+    _bright_str_builder_assign "${command}"
+
     return $?
 }
 
 #
 # output string with custom formatting
 #
-# @param string $1 string to output
-# @param string $2 controls to apply
+# @param string $1 message to output
+# @param string $2 command(s) to apply
 #
 # @return int
 #
 function out_custom()
 {
-    _bright_str_builder_output "$1" "$2"
-    _bright_out_newline
+    local message="${1:-}"
+    local command="${2:-}"
+
+    _bright_str_builder_output "${message}" "${command}" \
+        && _bright_auto_newline
+
     return $?
 }
