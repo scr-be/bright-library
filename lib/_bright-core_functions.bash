@@ -9,29 +9,14 @@
 ## file distributed with this source code.
 ##
 
-# SC2059: Usage of variables in the printf format string.
+# SC2059: Ignore warnings about variables in the printf format string. (intended)
+# SC2034: Ignore warnings about local variables unused. (false match)
+# SC2119: Ignore warnings about incorrect parameters usage. (false match)
+# SC2120: Ignore warnings about referencing arguments not passed. (false match)
 # shellcheck disable=SC2059
-
-
-#
-# Returns the status exit code of the last-run piped command. If no prior status
-# is available, a success status code of 0 is returned.
-#
-
-function _return_pipe_stat_code() {
-    return "${PIPESTATUS[0]=0}"
-}
-
-
-#
-# Outputs the status exit code of the last-run piped command. If no prior status
-# is available, a success status code of 0 is returned.
-#
-
-function _output_pipe_stat_code() {
-    _return_pipe_stat_code
-    _out_format "${?}"
-}
+# shellcheck disable=SC2034
+# shellcheck disable=SC2119
+# shellcheck disable=SC2120
 
 
 #
@@ -41,12 +26,61 @@ function _output_pipe_stat_code() {
 #
 
 function _str_repeat() {
-    local value="${1}"
-    local count=${2:-1}
+    local count=${1:-1}
+    local value="${2:-$(</dev/stdin)}"
 
     for ((n=0; n<count; n++)); do
         printf -- "%s" "${value}"
     done
+}
+
+
+#
+# trim whitespace from beginning and end of string
+#
+function _str_trim() {
+    tr -d '\n' 2> /dev/null <<< "${1:-$(</dev/stdin)}" | \
+        tr -d '\r' 2> /dev/null | \
+        sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' 2> /dev/null
+}
+
+
+#
+# trim whitespace from beginning and end of string
+#
+
+function _str_dash_to_underscore() {
+    sed -e 's/-/_/' 2> /dev/null <<< "${1:-$(</dev/stdin)}"
+}
+
+
+#
+# removes all non-alphanumeric and dash/underscore characters from string
+#
+
+function _str_only_alpha() {
+    sed 's/[^a-zA-Z0-9_-]//g' 2> /dev/null <<< "${1:-$(</dev/stdin)}"
+}
+
+
+#
+# removes all non-numeric characters from string
+#
+
+function _str_only_numbs() {
+    sed 's/[^0-9]//g' 2> /dev/null <<< "${1:-$(</dev/stdin)}"
+}
+
+
+#
+# surrounds the passed string in quotes as configured (double quotes by default)
+#
+
+function _str_quote() {
+    local quote="${2:-\"}"
+    local input="${1:-$(</dev/stdin)}"
+
+    printf -- '%s%s%s' "${quote}" "${input}" "${quote}"
 }
 
 
@@ -57,10 +91,12 @@ function _str_repeat() {
 #
 
 function _out_format() {
-    if [[ ${#} -gt 1 ]] && [[ ${1} = *%* ]]; then
-        printf -- "${@}"
-    elif [[ ${#} -gt 0 ]]; then
-        printf -- "$(_str_repeat "%s" ${#})" "${@}"
+    local input="${1:-$(</dev/stdin)}"
+
+    if [[ ${#} -gt 1 ]] && [[ ${1:-$input} = *%* ]]; then
+        printf -- "${1:-$input}" "${@:2}" 2> /dev/null
+    elif [[ ${#} -gt 0 ]] || [[ -n ${input} ]]; then
+        printf -- "$(_str_repeat ${#} '%s')" "${input}" "${@:2}" 2> /dev/null
     fi
 }
 
@@ -72,8 +108,11 @@ function _out_format() {
 #
 
 function _out_interp() {
-    [[ ${#} -gt 0 ]] \
-        && echo -en "$(_out_format "${@}")"
+    local input="${1:-$(</dev/stdin)}"
+
+    if [[ ${#} -gt 0 ]] || [[ -n ${input} ]]; then
+        echo -en "$(_out_format "${input}" "${@:2}")" 2> /dev/null
+    fi
 }
 
 
@@ -84,8 +123,11 @@ function _out_interp() {
 #
 
 function _out_stderr() {
-    [[ ${#} -gt 0 ]] \
-        && >&2 _out_interp "${@}"
+    local input="${1:-$(</dev/stdin)}"
+
+    if [[ ${#} -gt 0 ]] || [[ -n ${input} ]]; then
+        _out_interp "${input}" "${@:2}" >&2
+    fi
 }
 
 
@@ -108,6 +150,37 @@ function _auto_nl() {
 function _auto_reset() {
     [[ ${_BRIGHT_AUTO_RESET} -eq 1 ]] \
         && _ansi_control_seq '' "$(_control_reset all)"
+}
+
+
+#
+# get the type of the passed name (such as function or variable)
+#
+
+function _get_type() {
+    local what="${1:-$(</dev/stdin)}"
+    local type
+
+    if ! type=$(type -t "${what}" 2> /dev/null); then
+        _out_format 'undefined'
+        return 1
+    fi
+
+    _out_format "${type}"
+}
+
+
+#
+# checks if the passed name matches the expected type
+#
+
+function _is_type() {
+    local type="${1:-_}"
+    local what="${2:-$(</dev/stdin)}"
+
+    if [[ $(_get_type "${what}") != "${type}" ]]; then
+        return 1
+    fi
 }
 
 
@@ -142,7 +215,7 @@ function _error_func_format() {
     local text
 
     for f in ${func}; do
-        [[ "${f}" != "main" ]] && text="${f}${text:+ }${text:-}"
+        [[ ${f} != "main" ]] && text="${f}${text:+ }${text:-}"
     done
 
     sed 's/ /() -> /g' 2> /dev/null <<< "${text}"
@@ -183,16 +256,15 @@ function _error_generic() {
     shift
 
     while [[ ${#} -gt 0 ]]; do
-        if [[ "${1:0:7}" == "return:" ]]; then
+        if [[ "${1:0:7}" == return: ]]; then
             code="${1:7}"
-            shift || break
-        elif [[ "${1:0:7}" == "extras:" ]]; then
+        elif [[ "${1:0:7}" == extras: ]]; then
             type="${1:7}"
-            shift || break
         else
             args+=("$(printf '"%s"' "${1}")")
-            shift || break
         fi
+
+        shift || break
     done
 
     [[ ${#args[@]} -gt 1 ]] && type+='(s)'
@@ -223,27 +295,44 @@ function _error_generic() {
 # description for argument information.
 #
 
-function _error_invalid_assignment() {
+function _error_invalid_builder_arg() {
     _error_generic \
-        "${@}" \
-        'extras:failed assignment'
+        "${1}" \
+        'encountered invalid builder argument: either a second message string or an unrecognized control character' \
+        'extras:offending argument' \
+        "${@:2}"
 
-    return "${?}"
+    return ${?}
 }
 
 
 #
-# The internal error function customized for "invalid ranges", such as
-# integers that are out of bounds of the expected value. See the
-# "_error_generic" usage description for argument information.
+# The internal error function customized for "invalid rgb contexts".
 #
 
-function _error_invalid_range() {
+function _error_rgb_control_context() {
     _error_generic \
-        "${@}" \
-        'extras:out of range argument'
+        "${1}" \
+        "invalid rgb context: for foreground use 38 and for background use 48" \
+        'extras:invalid context' \
+        "${@:2}"
 
-    return "${?}"
+    return ${?}
+}
+
+
+#
+# The internal error function customized for "invalid rgb control values".
+#
+
+function _error_rgb_control_value() {
+    _error_generic \
+        "${1}" \
+        "invalid rgb integer: expected a value between 0 and 255" \
+        'extras:invalid control' \
+        "${@:2}"
+
+    return ${?}
 }
 
 
@@ -256,10 +345,10 @@ function _error_invalid_type() {
     _error_generic \
         "${1}" \
         "encountered an unmet ${2} type expectation" \
-        'extras:Invalid typed item' \
+        'extras:invalid typed item' \
         "${@:3}"
 
-    return "${?}"
+    return ${?}
 }
 
 
@@ -272,10 +361,10 @@ function _error_non_zero_func() {
     _error_generic \
         "${1}" \
         'encountered a non-zero return from a critical function call' \
-        'extras:Issued function name' \
+        'extras:issued function name' \
         "${@:2}"
 
-    return "${?}"
+    return ${?}
 }
 
 
@@ -289,7 +378,7 @@ function _resolve_indirect_assoc() {
     local -n map="${1}"
     local    key="${2:-}"
 
-    if [[ -z "${key}" ]] || [[ ! ${map[$key]+_} ]]; then
+    if [[ -z ${key} ]] || [[ ! ${map[$key]+_} ]]; then
         return 255
     fi
 
@@ -315,7 +404,7 @@ function _control_style() {
     )
 
     _resolve_indirect_assoc 'style_maps' "${style_name}"
-    return "${?}"
+    return ${?}
 }
 
 #
@@ -334,8 +423,8 @@ function _control_reset() {
         [hidden]=28
     )
 
-    _resolve_indirect_assoc style_maps "$style_name"
-    return "${?}"
+    _resolve_indirect_assoc 'style_maps' "$style_name"
+    return ${?}
 }
 
 #
@@ -365,7 +454,7 @@ function _control_fg() {
 
     _resolve_indirect_assoc color_maps "$color_name"
 
-    return "${?}"
+    return ${?}
 }
 
 #
@@ -395,7 +484,25 @@ function _control_bg() {
 
     _resolve_indirect_assoc color_maps "$color_name"
 
-    return "${?}"
+    return ${?}
+}
+
+
+function _str_extract_rgb() {
+    local which="${1}"
+    local input=${2:-$(</dev/stdin)}
+
+    case "${which}" in
+        r)
+            grep -o -E '^[0-2]?[0-9]{1,2},' <<< "${input}" | _str_only_numbs
+            ;;
+        b)
+            grep -o -E ',[0-2]?[0-9]{1,2},' <<< "${input}" | _str_only_numbs
+            ;;
+        g)
+            grep -o -E ',[0-2]?[0-9]{1,2}$' <<< "${input}" | _str_only_numbs
+            ;;
+    esac
 }
 
 #
@@ -404,29 +511,35 @@ function _control_bg() {
 function _control_rgb() {
     local rgb="${1}"
     local int="${2:-38}"
-    local tmp="${rgb%,*}"
-    local r="${rgb%%,*}"
-    local b="${tmp##*,}"
-    local g="${rgb##*,}"
+    local r
+    local b
+    local g
 
-    if [[ "${int}" -ne 38 ]] && [[ "${int}" -ne 48 ]]; then
-        _error_invalid_range \
-            "${FUNCNAME[*]}" \
-            'Invalid rgb context type; only 38 (for foreground) and 48 (for background) supported.' \
-            "${int}"
+    if [[ ${int} -ne 38 ]] && [[ ${int} -ne 48 ]]; then
+        _error_rgb_control_context "${FUNCNAME[*]}" "${int}"
         return 255
     fi
 
-    [[ -z "${r}" ]] \
-        || [[ ${r} -lt 0 ]] \
-        || [[ ${r} -gt 255 ]] \
-        || [[ -z "${b}" ]] \
-        || [[ ${b} -lt 0 ]] \
-        || [[ ${b} -gt 255 ]] \
-        || [[ -z "${g}" ]] \
-        || [[ ${g} -lt 0 ]] \
-        || [[ ${g} -gt 255 ]] \
-        && return
+    r="$(_str_extract_rgb r <<< "${rgb}")"
+
+    if [[ -z ${r} ]] || [[ ${r} -lt 0 ]] || [[ ${r} -gt 255 ]]; then
+        _error_rgb_control_value "${FUNCNAME[*]}" "${r}"
+        return 255
+    fi
+
+    b="$(_str_extract_rgb b <<< "${rgb}")"
+
+    if [[ -z ${b} ]] || [[ ${b} -lt 0 ]] || [[ ${b} -gt 255 ]]; then
+        _error_rgb_control_value "${FUNCNAME[*]}" "${b}"
+        return 255
+    fi
+
+    g="$(_str_extract_rgb g <<< "${rgb}")"
+
+    if [[ -z ${g} ]] || [[ ${g} -lt 0 ]] || [[ ${g} -gt 255 ]]; then
+        _error_rgb_control_value "${FUNCNAME[*]}" "${g}"
+        return 255
+    fi
 
     _out_format '%d;2;%d;%d;%d' "${int}" "${r}" "${b}" "${g}"
 }
@@ -445,32 +558,13 @@ function _control_bg_rgb() {
     _control_rgb "${1}" 48
 }
 
-#
-# trim whitespace from beginning and end of string
-#
-function _str_trim() {
-    _out_format "${1}" | \
-        tr -d '\n' 2> /dev/null | \
-        tr -d '\r' 2> /dev/null | \
-        sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' 2> /dev/null
-}
-
-#
-# trim whitespace from beginning and end of string
-#
-
-function _str_tran() {
-    _out_format "${1}" | \
-        sed -e 's/-/_/' 2> /dev/null
-}
-
 
 #
 # get the type of the passed name (such as function or variable)
 #
 
-function __get_type() {
-    local what="${1}"
+function _get_type() {
+    local what="${1:-$(</dev/stdin)}"
     local type
 
     if ! type=$(type -t "${what}" 2> /dev/null); then
@@ -486,13 +580,33 @@ function __get_type() {
 # checks if the passed name matches the expected type
 #
 
-function __is_type() {
-    local what="${1}"
-    local type="${2:-_}"
+function _is_type() {
+    local type="${1:-_}"
+    local what="${2:-$(</dev/stdin)}"
 
-    if [[ "$(__get_type "${what}")" != "${type}" ]]; then
+    if [[ $(_get_type "${what}") != "${type}" ]]; then
         return 1
     fi
+}
+
+
+#
+#
+#
+
+function _is_control_instruction() {
+    local -a ctl_keys=(fg fg-rgb bg bg-rgb style reset)
+    local    ctl_name="${1}"
+    local    ctl_size
+
+    for k in "${ctl_keys[@]}"; do
+        ctl_size=$(( ${#k} + 2 ))
+        if [[ ${ctl_name:0:$ctl_size} == "@${k}:" ]]; then
+            return 0
+        fi
+    done
+
+    return 1
 }
 
 
@@ -508,16 +622,14 @@ function _builder() {
     local    ctl_val
     local -a ctl_codes
 
-    until [[ $# -eq 0 ]] && [[ -z "${1}" ]]; do
-        if [[ "${1:0:4}" == "str:" ]] && [[ ${#1} -gt 4 ]]; then
-            str="${1:4}"
-        else
+    until [[ ${#} -eq 0 ]] && [[ -z ${1} ]]; do
+        if _is_control_instruction "${1}"; then
             for c in ${1}; do
-                ctl_key="$(_str_trim "$(_str_tran "${c%%:*}")")"
-                ctl_val="$(_str_trim "${c#*:}")"
+                ctl_val="$(_str_trim <<< "${c#*:}")"
+                ctl_key="$(_str_trim <<< "${c%%:*}" | _str_dash_to_underscore | _str_only_alpha)"
                 cmd="_control_${ctl_key}"
 
-                if ! __is_type "${cmd}" 'function'; then
+                if ! _is_type 'function' "${cmd}"; then
                     _error_invalid_type "${FUNCNAME[*]}" 'function' "${cmd}"
                     continue
                 fi
@@ -529,7 +641,15 @@ function _builder() {
 
                 ctl_codes+=("${ret}")
             done
+        else
+            if [[ -n ${str} ]]; then
+                _error_invalid_builder_arg "${FUNCNAME[*]}" "${1}"
+                continue
+            fi
+
+            str="${1}"
         fi
+
         shift || break
     done
 
@@ -542,9 +662,8 @@ function _builder() {
 #
 
 function _builder_return() {
-    _builder "str:${1}" "${@:2}" \
-        && _auto_reset \
-        || return "${?}"
+    _builder "${@}" \
+        || return ${?}
 }
 
 
@@ -553,8 +672,8 @@ function _builder_return() {
 #
 
 function _builder_output() {
-    _out_interp "$(_builder "str:${1}" "${@:2}" && _auto_reset)" \
-        || return "${?}"
+    (_builder "${@}" && _auto_reset) | _out_interp \
+        || return ${?}
 }
 
 
