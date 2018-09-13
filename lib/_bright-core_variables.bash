@@ -9,14 +9,8 @@
 ## file distributed with this source code.
 ##
 
-
-#
-# Toggles whether newlines should be written following any compiled bright
-# output (for example, from calling out_custom or another function that takes
-# a given string and applies styling before outputting it).
-#
-
-_BRIGHT_AUTO_NEWLINES=0
+# SC2034: Detection of unused variables.
+# shellcheck disable=SC2034
 
 
 #
@@ -27,7 +21,16 @@ _BRIGHT_AUTO_NEWLINES=0
 # styling as the compiled string).
 #
 
-_BRIGHT_AUTO_RESETS=0
+_BRIGHT_AUTO_RESET=1
+
+
+#
+# Toggles whether newlines should be written following any compiled bright
+# output (for example, from calling out_custom or another function that takes
+# a given string and applies styling before outputting it).
+#
+
+_BRIGHT_AUTO_NEWLINES=0
 
 
 #

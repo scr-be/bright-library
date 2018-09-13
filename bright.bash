@@ -1,1 +1,1 @@
-lib/bright.bash
+lib/_bright-load.bash

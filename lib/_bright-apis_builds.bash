@@ -9,21 +9,20 @@
 ## file distributed with this source code.
 ##
 
+
 #
-# output control string with custom formatting
+# create output control string with custom formatting
 #
 # @param string $1 controls to apply
 #
 # @return int
 #
-function set_custom()
-{
-    local command="${1:-}"
 
-    _bright_str_builder_assign "${command}"
-
-    return $?
+function _cmd() {
+    _str_builder_get "${@}" \
+        || return ${?}
 }
+
 
 #
 # output string with custom formatting
@@ -33,13 +32,9 @@ function set_custom()
 #
 # @return int
 #
-function out_custom()
-{
-    local message="${1:-}"
-    local command="${2:-}"
 
-    _bright_str_builder_output "${message}" "${command}" \
-        && _bright_auto_newline
-
-    return $?
+function _out() {
+    _str_builder_out "${@}" \
+        && _auto_nl \
+        || return ${?}
 }

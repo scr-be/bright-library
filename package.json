@@ -6,12 +6,13 @@
   "description": "A light-weight collection of bash functions providing console output styles (via colors and other styles).",
   "dependencies": {},
   "devDependencies": {
-    "bats": "git+https://github.com/ztombol/bats.git",
+    "bats": "git+https://github.com/bats-core/bats-core.git",
     "bats-assert": "git+https://github.com/ztombol/bats-assert.git",
     "bats-support": "git+https://github.com/ztombol/bats-support.git"
   },
+  "private": true,
   "scripts": {
-    "test": "bats test"
+    "test": "node_modules/bats/bin/bats test"
   },
   "homepage": "https://github.com/src-run/bash-bright-library#readme",
   "repository": {

@@ -9,90 +9,202 @@
 ## file distributed with this source code.
 ##
 
+
 #
-# reset all fg/bg colors and styles to default
+# reset all colors and styles
 #
 # @return int
 #
-function reset_all()
-{
-    _bright_str_builder_assign "reset:all"
-    return $?
+
+function cmd_reset() {
+    _str_builder_get 'reset:all' \
+        || return ${?}
 }
+
+
+#
+# reset all colors and styles
+#
+# @return int
+#
+
+function out_reset() {
+    _str_builder_out '' 'reset:all' \
+        && _auto_nl \
+        || return ${?}
+}
+
 
 #
 # reset bold style to default
 #
 # @return int
 #
-function reset_bold()
-{
-    _bright_str_builder_assign "reset:bold"
-    return $?
+
+function cmd_bold_reset() {
+    _str_builder_get 'reset:bold' \
+        || return ${?}
 }
+
+
+#
+# reset bold style to default
+#
+# @return int
+#
+
+function out_bold_reset() {
+    _str_builder_out '' 'reset:bold' \
+        && _auto_nl \
+        || return ${?}
+}
+
 
 #
 # reset bright style to default
 #
 # @return int
 #
-function reset_bright()
-{
-    _bright_str_builder_assign "reset:bright"
-    return $?
+
+function cmd__reset() {
+    _str_builder_get 'reset:bright' \
+        || return ${?}
 }
+
+
+#
+# reset bright style to default
+#
+# @return int
+#
+
+function out__reset() {
+    _str_builder_out '' 'reset:bright' \
+        && _auto_nl \
+        || return ${?}
+}
+
 
 #
 # reset dim style to default
 #
 # @return int
 #
-function reset_dim()
-{
-    _bright_str_builder_assign "reset:dim"
-    return $?
+
+function cmd_dim_reset() {
+    _str_builder_get 'reset:dim' \
+        || return ${?}
 }
+
+
+#
+# reset dim style to default
+#
+# @return int
+#
+
+function out_dim_reset() {
+    _str_builder_out '' 'reset:dim' \
+        && _auto_nl \
+        || return ${?}
+}
+
 
 #
 # reset underline style to default
 #
 # @return int
 #
-function reset_underline()
-{
-    _bright_str_builder_assign "reset:underline"
-    return $?
+
+function cmd_underline_reset() {
+    _str_builder_get 'reset:underline' \
+        || return ${?}
 }
+
+
+#
+# reset underline style to default
+#
+# @return int
+#
+
+function out_underline_reset() {
+    _str_builder_out '' 'reset:underline' \
+        && _auto_nl \
+        || return ${?}
+}
+
 
 #
 # reset blink style to default
 #
 # @return int
 #
-function reset_blink()
-{
-    _bright_str_builder_assign "reset:blink"
-    return $?
+
+function cmd_blink_reset() {
+    _str_builder_get 'reset:blink' \
+        || return ${?}
 }
+
+
+#
+# reset blink style to default
+#
+# @return int
+#
+
+function out_blink_reset() {
+    _str_builder_out '' 'reset:blink' \
+        && _auto_nl \
+        || return ${?}
+}
+
 
 #
 # reset reverse style to default
 #
 # @return int
 #
-function reset_reverse()
-{
-    _bright_str_builder_assign "reset:reverse"
-    return $?
+
+function cmd_reverse_reset() {
+    _str_builder_get 'reset:reverse' \
+        || return ${?}
 }
+
+
+#
+# reset reverse style to default
+#
+# @return int
+#
+
+function out_reverse_reset() {
+    _str_builder_out '' 'reset:reverse' \
+        && _auto_nl \
+        || return ${?}
+}
+
 
 #
 # reset hidden style to default
 #
 # @return int
 #
-function reset_hidden()
-{
-    _bright_str_builder_assign "reset:hidden"
-    return $?
+
+function cmd_hidden_reset() {
+    _str_builder_get 'reset:hidden' \
+        || return ${?}
+}
+
+
+#
+# reset hidden style to default
+#
+# @return int
+#
+
+function out_hidden_reset() {
+    _str_builder_out '' 'reset:hidden' \
+        && _auto_nl \
+        || return ${?}
 }
