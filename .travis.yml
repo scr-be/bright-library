@@ -5,10 +5,9 @@ language: bash
 env:
   - SHUNIT_COLOR=always
 
-script:
-  - bash test/test_bright-apis.bash
-
 matrix:
   include:
+    - script:
+        - bash test/test_bright-apis.bash
     - script:
         - shellcheck -x bright.bash
