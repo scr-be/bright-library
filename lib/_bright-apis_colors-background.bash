@@ -20,7 +20,7 @@
 #
 
 function cmd_bg_default() {
-    _str_builder_get "bg:default" "${@}" \
+    _builder_return "bg:default" "${@}" \
         || return ${?}
 }
 
@@ -35,7 +35,7 @@ function cmd_bg_default() {
 #
 
 function out_bg_default() {
-    _str_builder_out "${1}" "bg:default" "${@:2}" \
+    _builder_output "${1}" "bg:default" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -51,7 +51,7 @@ function out_bg_default() {
 #
 
 function cmd_bg_black() {
-    _str_builder_get "bg:black" "${@:2}" \
+    _builder_return "bg:black" "${@:2}" \
         || return ${?}
 }
 
@@ -66,7 +66,7 @@ function cmd_bg_black() {
 #
 
 function out_bg_black() {
-    _str_builder_out "${1}" "bg:black" "${@:2}" \
+    _builder_output "${1}" "bg:black" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -82,7 +82,7 @@ function out_bg_black() {
 #
 
 function cmd_bg_red() {
-    _str_builder_get "bg:red" "${@:2}" \
+    _builder_return "bg:red" "${@:2}" \
         || return ${?}
 }
 
@@ -97,7 +97,7 @@ function cmd_bg_red() {
 #
 
 function out_bg_red() {
-    _str_builder_out "${1}" "bg:red" "${@:2}" \
+    _builder_output "${1}" "bg:red" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -113,7 +113,7 @@ function out_bg_red() {
 #
 
 function cmd_bg_green() {
-    _str_builder_get "bg:green" "${@:2}" \
+    _builder_return "bg:green" "${@:2}" \
         || return ${?}
 }
 
@@ -128,7 +128,7 @@ function cmd_bg_green() {
 #
 
 function out_bg_green() {
-    _str_builder_out "${1}" "bg:green" "${@:2}" \
+    _builder_output "${1}" "bg:green" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -144,7 +144,7 @@ function out_bg_green() {
 #
 
 function cmd_bg_yellow() {
-    _str_builder_get "bg:yellow" "${@:2}" \
+    _builder_return "bg:yellow" "${@:2}" \
         || return ${?}
 }
 
@@ -159,7 +159,7 @@ function cmd_bg_yellow() {
 #
 
 function out_bg_yellow() {
-    _str_builder_out "${1}" "bg:yellow" "${@:2}" \
+    _builder_output "${1}" "bg:yellow" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -175,7 +175,7 @@ function out_bg_yellow() {
 #
 
 function cmd_bg_blue() {
-    _str_builder_get "bg:blue" "${@}" \
+    _builder_return "bg:blue" "${@}" \
         || return ${?}
 }
 
@@ -190,7 +190,7 @@ function cmd_bg_blue() {
 #
 
 function out_bg_blue() {
-    _str_builder_out "${1}" "bg:blue" "${@:2}" \
+    _builder_output "${1}" "bg:blue" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -206,7 +206,7 @@ function out_bg_blue() {
 #
 
 function cmd_bg_magenta() {
-    _str_builder_get "bg:magenta" "${@}" \
+    _builder_return "bg:magenta" "${@}" \
         || return ${?}
 }
 
@@ -221,7 +221,7 @@ function cmd_bg_magenta() {
 #
 
 function out_bg_magenta() {
-    _str_builder_out "${1}" "bg:magenta" "${@:2}" \
+    _builder_output "${1}" "bg:magenta" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -237,7 +237,7 @@ function out_bg_magenta() {
 #
 
 function cmd_bg_cyan() {
-    _str_builder_get "bg:cyan" "${@}" \
+    _builder_return "bg:cyan" "${@}" \
         || return ${?}
 }
 
@@ -252,7 +252,7 @@ function cmd_bg_cyan() {
 #
 
 function out_bg_cyan() {
-    _str_builder_out "${1}" "bg:cyan" "${@:2}" \
+    _builder_output "${1}" "bg:cyan" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -268,7 +268,7 @@ function out_bg_cyan() {
 #
 
 function cmd_bg_white() {
-    _str_builder_get "bg:white" "${@}" \
+    _builder_return "bg:white" "${@}" \
         || return ${?}
 }
 
@@ -283,7 +283,7 @@ function cmd_bg_white() {
 #
 
 function out_bg_white() {
-    _str_builder_out "${1}" "bg:white" "${@:2}" \
+    _builder_output "${1}" "bg:white" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -299,7 +299,7 @@ function out_bg_white() {
 #
 
 function cmd_bg_light_black() {
-    _str_builder_get "bg:light-black" "${@}" \
+    _builder_return "bg:light-black" "${@}" \
         || return ${?}
 }
 
@@ -314,7 +314,7 @@ function cmd_bg_light_black() {
 #
 
 function out_bg_light_black() {
-    _str_builder_out "${1}" "bg:light-black" "${@:2}" \
+    _builder_output "${1}" "bg:light-black" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -330,7 +330,7 @@ function out_bg_light_black() {
 #
 
 function cmd_bg_light_red() {
-    _str_builder_get "bg:light-red" "${@}" \
+    _builder_return "bg:light-red" "${@}" \
         || return ${?}
 }
 
@@ -345,7 +345,7 @@ function cmd_bg_light_red() {
 #
 
 function out_bg_light_red() {
-    _str_builder_out "${1}" "bg:light-red" "${@:2}" \
+    _builder_output "${1}" "bg:light-red" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -361,7 +361,7 @@ function out_bg_light_red() {
 #
 
 function cmd_bg_light_green() {
-    _str_builder_get "bg:light-green" "${@}" \
+    _builder_return "bg:light-green" "${@}" \
         || return ${?}
 }
 
@@ -376,7 +376,7 @@ function cmd_bg_light_green() {
 #
 
 function out_bg_light_green() {
-    _str_builder_out "${1}" "bg:light-green" "${@:2}" \
+    _builder_output "${1}" "bg:light-green" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -392,7 +392,7 @@ function out_bg_light_green() {
 #
 
 function cmd_bg_light_yellow() {
-    _str_builder_get "bg:light-yellow" "${@}" \
+    _builder_return "bg:light-yellow" "${@}" \
         || return ${?}
 }
 
@@ -407,7 +407,7 @@ function cmd_bg_light_yellow() {
 #
 
 function out_bg_light_yellow() {
-    _str_builder_out "${1}" "bg:light-yellow" "${@:2}" \
+    _builder_output "${1}" "bg:light-yellow" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -423,7 +423,7 @@ function out_bg_light_yellow() {
 #
 
 function cmd_bg_light_blue() {
-    _str_builder_get "bg:light-blue" "${@}" \
+    _builder_return "bg:light-blue" "${@}" \
         || return ${?}
 }
 
@@ -438,7 +438,7 @@ function cmd_bg_light_blue() {
 #
 
 function out_bg_light_blue() {
-    _str_builder_out "${1}" "bg:light-blue" "${@:2}" \
+    _builder_output "${1}" "bg:light-blue" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -454,7 +454,7 @@ function out_bg_light_blue() {
 #
 
 function cmd_bg_light_magenta() {
-    _str_builder_get "bg:light-magenta" "${@}" \
+    _builder_return "bg:light-magenta" "${@}" \
         || return ${?}
 }
 
@@ -469,7 +469,7 @@ function cmd_bg_light_magenta() {
 #
 
 function out_bg_light_magenta() {
-    _str_builder_out "${1}" "bg:light-magenta" "${@:2}" \
+    _builder_output "${1}" "bg:light-magenta" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -485,7 +485,7 @@ function out_bg_light_magenta() {
 #
 
 function cmd_bg_light_cyan() {
-    _str_builder_get "bg:light-cyan" "${@}" \
+    _builder_return "bg:light-cyan" "${@}" \
         || return ${?}
 }
 
@@ -500,7 +500,7 @@ function cmd_bg_light_cyan() {
 #
 
 function out_bg_light_cyan() {
-    _str_builder_out "${1}" "bg:light-cyan" "${@:2}" \
+    _builder_output "${1}" "bg:light-cyan" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -516,7 +516,7 @@ function out_bg_light_cyan() {
 #
 
 function cmd_bg_light_white() {
-    _str_builder_get "bg:light-white" "${@}" \
+    _builder_return "bg:light-white" "${@}" \
         || return ${?}
 }
 
@@ -531,7 +531,7 @@ function cmd_bg_light_white() {
 #
 
 function out_bg_light_white() {
-    _str_builder_out "${1}" "bg:light-white" "${@:2}" \
+    _builder_output "${1}" "bg:light-white" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }

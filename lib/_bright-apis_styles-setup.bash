@@ -20,7 +20,7 @@
 #
 
 function cmd_bold() {
-    _str_builder_get "style:bold" "${@}" \
+    _builder_return "style:bold" "${@}" \
         || return ${?}
 }
 
@@ -35,7 +35,7 @@ function cmd_bold() {
 #
 
 function out_bold() {
-    _str_builder_out "${1}" "style:bold" "${@:2}" \
+    _builder_output "${1}" "style:bold" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -51,7 +51,7 @@ function out_bold() {
 #
 
 function cmd_bright() {
-    _str_builder_get "style:bright" "${@}" \
+    _builder_return "style:bright" "${@}" \
         || return ${?}
 }
 
@@ -66,7 +66,7 @@ function cmd_bright() {
 #
 
 function out_bright() {
-    _str_builder_out "${1}" "style:bright" "${@:2}" \
+    _builder_output "${1}" "style:bright" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -82,7 +82,7 @@ function out_bright() {
 #
 
 function cmd_dim() {
-    _str_builder_get "style:dim" "${@}" \
+    _builder_return "style:dim" "${@}" \
         || return ${?}
 }
 
@@ -97,7 +97,7 @@ function cmd_dim() {
 #
 
 function out_dim() {
-    _str_builder_out "${1}" "style:dim" "${@:2}" \
+    _builder_output "${1}" "style:dim" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -113,7 +113,7 @@ function out_dim() {
 #
 
 function cmd_underline() {
-    _str_builder_get "style:underline" "${@}" \
+    _builder_return "style:underline" "${@}" \
         || return ${?}
 }
 
@@ -128,7 +128,7 @@ function cmd_underline() {
 #
 
 function out_underline() {
-    _str_builder_out "${1}" "style:underline" "${@:2}" \
+    _builder_output "${1}" "style:underline" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -144,7 +144,7 @@ function out_underline() {
 #
 
 function cmd_blink() {
-    _str_builder_get "style:blink" "${@}" \
+    _builder_return "style:blink" "${@}" \
         || return ${?}
 }
 
@@ -159,7 +159,7 @@ function cmd_blink() {
 #
 
 function out_blink() {
-    _str_builder_out "${1}" "style:blink" "${@:2}" \
+    _builder_output "${1}" "style:blink" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -175,7 +175,7 @@ function out_blink() {
 #
 
 function cmd_reverse() {
-    _str_builder_get "style:reverse" "${@}" \
+    _builder_return "style:reverse" "${@}" \
         || return ${?}
 }
 
@@ -190,7 +190,7 @@ function cmd_reverse() {
 #
 
 function out_reverse() {
-    _str_builder_out "${1}" "style:reverse" "${@:2}" \
+    _builder_output "${1}" "style:reverse" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -206,7 +206,7 @@ function out_reverse() {
 #
 
 function cmd_hidden() {
-    _str_builder_get "style:hidden" "${@}" \
+    _builder_return "style:hidden" "${@}" \
         || return ${?}
 }
 
@@ -221,7 +221,7 @@ function cmd_hidden() {
 #
 
 function out_hidden() {
-    _str_builder_out "${1}" "style:hidden" "${@:2}" \
+    _builder_output "${1}" "style:hidden" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }

@@ -17,7 +17,7 @@
 #
 
 function cmd_reset() {
-    _str_builder_get 'reset:all' \
+    _builder_return 'reset:all' \
         || return ${?}
 }
 
@@ -29,7 +29,7 @@ function cmd_reset() {
 #
 
 function out_reset() {
-    _str_builder_out '' 'reset:all' \
+    _builder_output '' 'reset:all' \
         && _auto_nl \
         || return ${?}
 }
@@ -42,7 +42,7 @@ function out_reset() {
 #
 
 function cmd_bold_reset() {
-    _str_builder_get 'reset:bold' \
+    _builder_return 'reset:bold' \
         || return ${?}
 }
 
@@ -54,7 +54,7 @@ function cmd_bold_reset() {
 #
 
 function out_bold_reset() {
-    _str_builder_out '' 'reset:bold' \
+    _builder_output '' 'reset:bold' \
         && _auto_nl \
         || return ${?}
 }
@@ -67,7 +67,7 @@ function out_bold_reset() {
 #
 
 function cmd__reset() {
-    _str_builder_get 'reset:bright' \
+    _builder_return 'reset:bright' \
         || return ${?}
 }
 
@@ -79,7 +79,7 @@ function cmd__reset() {
 #
 
 function out__reset() {
-    _str_builder_out '' 'reset:bright' \
+    _builder_output '' 'reset:bright' \
         && _auto_nl \
         || return ${?}
 }
@@ -92,7 +92,7 @@ function out__reset() {
 #
 
 function cmd_dim_reset() {
-    _str_builder_get 'reset:dim' \
+    _builder_return 'reset:dim' \
         || return ${?}
 }
 
@@ -104,7 +104,7 @@ function cmd_dim_reset() {
 #
 
 function out_dim_reset() {
-    _str_builder_out '' 'reset:dim' \
+    _builder_output '' 'reset:dim' \
         && _auto_nl \
         || return ${?}
 }
@@ -117,7 +117,7 @@ function out_dim_reset() {
 #
 
 function cmd_underline_reset() {
-    _str_builder_get 'reset:underline' \
+    _builder_return 'reset:underline' \
         || return ${?}
 }
 
@@ -129,7 +129,7 @@ function cmd_underline_reset() {
 #
 
 function out_underline_reset() {
-    _str_builder_out '' 'reset:underline' \
+    _builder_output '' 'reset:underline' \
         && _auto_nl \
         || return ${?}
 }
@@ -142,7 +142,7 @@ function out_underline_reset() {
 #
 
 function cmd_blink_reset() {
-    _str_builder_get 'reset:blink' \
+    _builder_return 'reset:blink' \
         || return ${?}
 }
 
@@ -154,7 +154,7 @@ function cmd_blink_reset() {
 #
 
 function out_blink_reset() {
-    _str_builder_out '' 'reset:blink' \
+    _builder_output '' 'reset:blink' \
         && _auto_nl \
         || return ${?}
 }
@@ -167,7 +167,7 @@ function out_blink_reset() {
 #
 
 function cmd_reverse_reset() {
-    _str_builder_get 'reset:reverse' \
+    _builder_return 'reset:reverse' \
         || return ${?}
 }
 
@@ -179,7 +179,7 @@ function cmd_reverse_reset() {
 #
 
 function out_reverse_reset() {
-    _str_builder_out '' 'reset:reverse' \
+    _builder_output '' 'reset:reverse' \
         && _auto_nl \
         || return ${?}
 }
@@ -192,7 +192,7 @@ function out_reverse_reset() {
 #
 
 function cmd_hidden_reset() {
-    _str_builder_get 'reset:hidden' \
+    _builder_return 'reset:hidden' \
         || return ${?}
 }
 
@@ -204,7 +204,7 @@ function cmd_hidden_reset() {
 #
 
 function out_hidden_reset() {
-    _str_builder_out '' 'reset:hidden' \
+    _builder_output '' 'reset:hidden' \
         && _auto_nl \
         || return ${?}
 }

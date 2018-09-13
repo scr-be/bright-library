@@ -19,7 +19,8 @@
 #
 
 function _cmd() {
-    _str_builder_get "${@}" \
+    _builder_return "${@}" \
+        && _auto_nl \
         || return ${?}
 }
 
@@ -34,7 +35,7 @@ function _cmd() {
 #
 
 function _out() {
-    _str_builder_out "${@}" \
+    _builder_output "${@}" \
         && _auto_nl \
         || return ${?}
 }

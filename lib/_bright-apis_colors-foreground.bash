@@ -20,7 +20,7 @@
 #
 
 function cmd_default_fg() {
-    _str_builder_get "fg:default" "${@}" \
+    _builder_return "fg:default" "${@}" \
         || return ${?}
 }
 
@@ -35,7 +35,7 @@ function cmd_default_fg() {
 #
 
 function out_default_fg() {
-    _str_builder_out "${1}" "fg:default" "${@:2}" \
+    _builder_output "${1}" "fg:default" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -51,7 +51,7 @@ function out_default_fg() {
 #
 
 function cmd_black() {
-    _str_builder_get "fg:black" "${@}" \
+    _builder_return "fg:black" "${@}" \
         || return ${?}
 }
 
@@ -66,7 +66,7 @@ function cmd_black() {
 #
 
 function out_black() {
-    _str_builder_out "${1}" "fg:black" "${@:2}" \
+    _builder_output "${1}" "fg:black" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -82,7 +82,7 @@ function out_black() {
 #
 
 function cmd_red() {
-    _str_builder_get "fg:red" "${@}" \
+    _builder_return "fg:red" "${@}" \
         || return ${?}
 }
 
@@ -97,7 +97,7 @@ function cmd_red() {
 #
 
 function out_red() {
-    _str_builder_out "${1}" "fg:red" "${@:2}" \
+    _builder_output "${1}" "fg:red" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -113,7 +113,7 @@ function out_red() {
 #
 
 function cmd_green() {
-    _str_builder_get "fg:green" "${@}" \
+    _builder_return "fg:green" "${@}" \
         || return ${?}
 }
 
@@ -128,7 +128,7 @@ function cmd_green() {
 #
 
 function out_green() {
-    _str_builder_out "${1}" "fg:green" "${@:2}" \
+    _builder_output "${1}" "fg:green" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -144,7 +144,7 @@ function out_green() {
 #
 
 function cmd_yellow() {
-    _str_builder_get "fg:yellow" "${@}" \
+    _builder_return "fg:yellow" "${@}" \
         || return ${?}
 }
 
@@ -159,7 +159,7 @@ function cmd_yellow() {
 #
 
 function out_yellow() {
-    _str_builder_out "${1}" "fg:yellow" "${@:2}" \
+    _builder_output "${1}" "fg:yellow" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -175,7 +175,7 @@ function out_yellow() {
 #
 
 function cmd_blue() {
-    _str_builder_get "fg:blue" "${@}" \
+    _builder_return "fg:blue" "${@}" \
         || return ${?}
 }
 
@@ -190,7 +190,7 @@ function cmd_blue() {
 #
 
 function out_blue() {
-    _str_builder_out "${1}" "fg:blue" "${@:2}" \
+    _builder_output "${1}" "fg:blue" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -206,7 +206,7 @@ function out_blue() {
 #
 
 function cmd_magenta() {
-    _str_builder_get "fg:magenta" "${@}" \
+    _builder_return "fg:magenta" "${@}" \
         || return ${?}
 }
 
@@ -221,7 +221,7 @@ function cmd_magenta() {
 #
 
 function out_magenta() {
-    _str_builder_out "${1}" "fg:magenta" "${@:2}" \
+    _builder_output "${1}" "fg:magenta" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -237,7 +237,7 @@ function out_magenta() {
 #
 
 function cmd_cyan() {
-    _str_builder_get "fg:cyan" "${@}" \
+    _builder_return "fg:cyan" "${@}" \
         || return ${?}
 }
 
@@ -252,7 +252,7 @@ function cmd_cyan() {
 #
 
 function out_cyan() {
-    _str_builder_out "${1}" "fg:cyan" "${@:2}" \
+    _builder_output "${1}" "fg:cyan" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -268,7 +268,7 @@ function out_cyan() {
 #
 
 function cmd_white() {
-    _str_builder_get "fg:white" "${@}" \
+    _builder_return "fg:white" "${@}" \
         || return ${?}
 }
 
@@ -283,7 +283,7 @@ function cmd_white() {
 #
 
 function out_white() {
-    _str_builder_out "${1}" "fg:white" "${@:2}" \
+    _builder_output "${1}" "fg:white" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -299,7 +299,7 @@ function out_white() {
 #
 
 function cmd_light_black() {
-    _str_builder_get "fg:light-black" "${@}" \
+    _builder_return "fg:light-black" "${@}" \
         || return ${?}
 }
 
@@ -314,7 +314,7 @@ function cmd_light_black() {
 #
 
 function out_light_black() {
-    _str_builder_out "${1}" "fg:light-black" "${@:2}" \
+    _builder_output "${1}" "fg:light-black" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -330,7 +330,7 @@ function out_light_black() {
 #
 
 function cmd_light_red() {
-    _str_builder_get "fg:light-red" "${@}" \
+    _builder_return "fg:light-red" "${@}" \
         || return ${?}
 }
 
@@ -345,7 +345,7 @@ function cmd_light_red() {
 #
 
 function out_light_red() {
-    _str_builder_out "${1}" "fg:light-red" "${@:2}" \
+    _builder_output "${1}" "fg:light-red" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -361,7 +361,7 @@ function out_light_red() {
 #
 
 function cmd_light_green() {
-    _str_builder_get "fg:light-green" "${@}" \
+    _builder_return "fg:light-green" "${@}" \
         || return ${?}
 }
 
@@ -376,7 +376,7 @@ function cmd_light_green() {
 #
 
 function out_light_green() {
-    _str_builder_out "${1}" "fg:light-green" "${@:2}" \
+    _builder_output "${1}" "fg:light-green" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -392,7 +392,7 @@ function out_light_green() {
 #
 
 function cmd_light_yellow() {
-    _str_builder_get "fg:light-yellow" "${@}" \
+    _builder_return "fg:light-yellow" "${@}" \
         || return ${?}
 }
 
@@ -407,7 +407,7 @@ function cmd_light_yellow() {
 #
 
 function out_light_yellow() {
-    _str_builder_out "${1}" "fg:light-yellow" "${@:2}" \
+    _builder_output "${1}" "fg:light-yellow" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -423,7 +423,7 @@ function out_light_yellow() {
 #
 
 function cmd_light_blue() {
-    _str_builder_get "fg:light-blue" "${@}" \
+    _builder_return "fg:light-blue" "${@}" \
         || return ${?}
 }
 
@@ -438,7 +438,7 @@ function cmd_light_blue() {
 #
 
 function out_light_blue() {
-    _str_builder_out "${1}" "fg:light-blue" "${@:2}" \
+    _builder_output "${1}" "fg:light-blue" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -454,7 +454,7 @@ function out_light_blue() {
 #
 
 function cmd_light_magenta() {
-    _str_builder_get "fg:light-magenta" "${@}" \
+    _builder_return "fg:light-magenta" "${@}" \
         || return ${?}
 }
 
@@ -469,7 +469,7 @@ function cmd_light_magenta() {
 #
 
 function out_light_magenta() {
-    _str_builder_out "${1}" "fg:light-magenta" "${@:2}" \
+    _builder_output "${1}" "fg:light-magenta" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -485,7 +485,7 @@ function out_light_magenta() {
 #
 
 function cmd_light_cyan() {
-    _str_builder_get "fg:light-cyan" "${@}" \
+    _builder_return "fg:light-cyan" "${@}" \
         || return ${?}
 }
 
@@ -500,7 +500,7 @@ function cmd_light_cyan() {
 #
 
 function out_light_cyan() {
-    _str_builder_out "${1}" "fg:light-cyan" "${@:2}" \
+    _builder_output "${1}" "fg:light-cyan" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }
@@ -516,7 +516,7 @@ function out_light_cyan() {
 #
 
 function cmd_light_white() {
-    _str_builder_get "fg:light-white" "${@}" \
+    _builder_return "fg:light-white" "${@}" \
         || return ${?}
 }
 
@@ -531,7 +531,7 @@ function cmd_light_white() {
 #
 
 function out_light_white() {
-    _str_builder_out "${1}" "fg:light-white" "${@:2}" \
+    _builder_output "${1}" "fg:light-white" "${@:2}" \
         && _auto_nl \
         || return ${?}
 }

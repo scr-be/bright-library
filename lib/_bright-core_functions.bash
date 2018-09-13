@@ -500,7 +500,7 @@ function __is_type() {
 # build the output string based on the passed control commands
 #
 
-function _str_builder_return() {
+function _builder() {
     local    str
     local    cmd
     local    ret
@@ -538,6 +538,28 @@ function _str_builder_return() {
 
 
 #
+# build the output string based on the passed control commands
+#
+
+function _builder_return() {
+    _builder "str:${1}" "${@:2}" \
+        && _auto_reset \
+        || return "${?}"
+}
+
+
+#
+# build the output string based on the passed control commands and output it
+#
+
+function _builder_output() {
+    _out_interp "$(_builder "str:${1}" "${@:2}" && _auto_reset)" \
+        || return "${?}"
+}
+
+
+
+#
 # Output ansi control sequence with the relevant text.
 #
 
@@ -554,28 +576,6 @@ function _ansi_control_seq() {
     if [[ ${#control} -eq 0 ]]; then
         _out_format "${message}"
     else
-        _out_format "\033[%sm%s" "${control}" "${message}"
+        _out_format "\%s[%sm%s" '033' "${control}" "${message}"
     fi
-}
-
-
-#
-# build the output control sequence based on the passed control commands and output it
-#
-
-function _str_builder_get() {
-    _str_builder_return "${@}"
-    return "${?}"
-}
-
-
-#
-# build the output string based on the passed control commands and output it
-#
-
-function _str_builder_out() {
-    _str_builder_return "str:${1}" "${@:2}"
-    _auto_reset
-
-    return "${?}"
 }
