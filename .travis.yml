@@ -5,7 +5,7 @@ language: bash
 addons:
   apt:
     packages:
-      - coreutils
+      - realpath
 
 env:
   - SHUNIT_COLOR=always
