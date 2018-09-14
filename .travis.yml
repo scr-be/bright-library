@@ -2,6 +2,11 @@
 
 language: bash
 
+addons:
+  apt:
+    packages:
+      - coreutils
+
 env:
   - SHUNIT_COLOR=always
 
