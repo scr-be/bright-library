@@ -19,9 +19,9 @@
 # resolve test root directory path
 #
 
-declare -r _TEST_ROOT_PATH="$(
-    dirname "$(realpath -m "${BASH_SOURCE[0]}" 2> /dev/null)" 2> /dev/null
-)"
+declare -r _TEST_ROOT_PATH="$(cd "$(dirname "$(
+    readlink -e "${BASH_SOURCE[0]}" 2> /dev/null
+)" 2> /dev/null)" &> /dev/null && pwd 2> /dev/null)"
 
 
 #

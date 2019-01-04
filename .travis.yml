@@ -9,17 +9,17 @@
 ## file distributed with this source code.
 ##
 
+sudo: false
 language: bash
 
-addons:
-    apt:
-        packages:
-            - realpath
+git:
+    depth: 3
 
 env:
   - SHUNIT_COLOR=always
 
 matrix:
+    fast_finish: true
     include:
         - script:
             - bash test/bright-test.bash

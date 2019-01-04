@@ -23,7 +23,7 @@ readonly _BRIGHT_RELEASE_VERS="2.0.0"
 #
 
 readonly _BRIGHT_ROOT_PATH="$(cd "$(dirname "$(
-    realpath "${BASH_SOURCE[0]}" 2> /dev/null
+    readlink -e "${BASH_SOURCE[0]}" 2> /dev/null
 )" 2> /dev/null)" &> /dev/null && pwd 2> /dev/null)"
 
 
