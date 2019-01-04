@@ -1,4 +1,9 @@
+
 # [src-run] bash-bright-library
+
+|       Travis-CI        |         License         |    API Documentation    |
+|:----------------------:|:-----------------------:|:-----------------------:|
+| [![Travis](https://src.run/bash-bright-library/travis.svg)](https://src.run/bash-bright-library/travis) | [![License](https://src.run/bash-bright-library/license.svg)](https://src.run/bash-bright-library/license) | [![API Docs](https://src.run/bash-bright-library/api.svg)](https://src.run/bash-bright-library/api) |
 
 ## Overview
 
