@@ -1,0 +1,6 @@
+*               text=auto eol=lf whitespace=tabwidth=4
+*.bash          diff=bash
+/test           export-ignore
+/.gitmodules    export-ignore
+/.gitattributes export-ignore
+/.travis.yml    export-ignore

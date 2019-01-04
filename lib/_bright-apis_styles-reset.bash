@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-## This file is part of the `src-run/bright-library` package.
+## This file is part of the `src-run/bash-bright-library` package.
 ##
 ## (c) Rob Frawley 2nd <rmf@src.run>
 ##
@@ -13,198 +13,206 @@
 #
 # reset all colors and styles
 #
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd_reset() {
-    _builder_return 'reset:all' \
-        || return ${?}
+function _get_reset() {
+    _get '@reset:all' "${@}" || return ${?}
 }
 
 
 #
 # reset all colors and styles
 #
+# @param string ... any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out_reset() {
-    _builder_output '' 'reset:all' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset() {
+    _get_reset '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # reset bold style to default
 #
+# @param string ...reset bold style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd_bold_reset() {
-    _builder_return 'reset:bold' \
-        || return ${?}
+function _get_reset_bold() {
+    _get '@reset:bold' "${@}" || return ${?}
 }
 
 
 #
 # reset bold style to default
 #
+# @param string ...reset bold style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out_bold_reset() {
-    _builder_output '' 'reset:bold' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset_bold() {
+    _get_reset_bold '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # reset bright style to default
 #
+# @param string ...reset bright style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd__reset() {
-    _builder_return 'reset:bright' \
-        || return ${?}
+function _get_reset_bright() {
+    _get '@reset:bright' "${@}" || return ${?}
 }
 
 
 #
 # reset bright style to default
 #
+# @param string ...reset bright style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out__reset() {
-    _builder_output '' 'reset:bright' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset_bright() {
+    _get_reset_bright '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # reset dim style to default
 #
+# @param string ...reset dim style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd_dim_reset() {
-    _builder_return 'reset:dim' \
-        || return ${?}
+function _get_reset_dim() {
+    _get '@reset:dim' "${@}" || return ${?}
 }
 
 
 #
 # reset dim style to default
 #
+# @param string ...reset dim style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out_dim_reset() {
-    _builder_output '' 'reset:dim' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset_dim() {
+    _get_reset_dim '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # reset underline style to default
 #
+# @param string ...reset underline style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd_underline_reset() {
-    _builder_return 'reset:underline' \
-        || return ${?}
+function _get_reset_underline() {
+    _get '@reset:underline' "${@}" || return ${?}
 }
 
 
 #
 # reset underline style to default
 #
+# @param string ...reset underline style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out_underline_reset() {
-    _builder_output '' 'reset:underline' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset_underline() {
+    _get_reset_underline '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # reset blink style to default
 #
+# @param string ...reset blink style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd_blink_reset() {
-    _builder_return 'reset:blink' \
-        || return ${?}
+function _get_reset_blink() {
+    _get '@reset:blink' "${@}" || return ${?}
 }
 
 
 #
 # reset blink style to default
 #
+# @param string ...reset blink style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out_blink_reset() {
-    _builder_output '' 'reset:blink' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset_blink() {
+    _get_reset_blink '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # reset reverse style to default
 #
+# @param string ...reset reverse style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd_reverse_reset() {
-    _builder_return 'reset:reverse' \
-        || return ${?}
+function _get_reset_reverse() {
+    _get '@reset:reverse' "${@}" || return ${?}
 }
 
 
 #
 # reset reverse style to default
 #
+# @param string ...reset reverse style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out_reverse_reset() {
-    _builder_output '' 'reset:reverse' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset_reverse() {
+    _get_reset_reverse '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # reset hidden style to default
 #
+# @param string ...reset hidden style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function cmd_hidden_reset() {
-    _builder_return 'reset:hidden' \
-        || return ${?}
+function _get_reset_hidden() {
+    _get '@reset:hidden' "${@}" || return ${?}
 }
 
 
 #
 # reset hidden style to default
 #
+# @param string ...reset hidden style to default any of: message, replacements, styles, colors, and controls
+#
 # @return int
 #
 
-function out_hidden_reset() {
-    _builder_output '' 'reset:hidden' \
-        && _auto_nl \
-        || return ${?}
+function _out_reset_hidden() {
+    _get_reset_hidden '@ctl:interpret' "${@}" || return ${?}
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-## This file is part of the `src-run/bright-library` package.
+## This file is part of the `src-run/bash-bright-library` package.
 ##
 ## (c) Rob Frawley 2nd <rmf@src.run>
 ##
@@ -21,7 +21,7 @@
 # styling as the compiled string).
 #
 
-_BRIGHT_AUTO_RESET=1
+_BRIGHT_AUTO_RESETS=1
 
 
 #
@@ -30,7 +30,7 @@ _BRIGHT_AUTO_RESET=1
 # a given string and applies styling before outputting it).
 #
 
-_BRIGHT_AUTO_NEWLINES=0
+_BRIGHT_AUTO_RETURN=0
 
 
 #

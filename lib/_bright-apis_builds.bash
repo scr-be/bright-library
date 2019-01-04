@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-## This file is part of the `src-run/bright-library` package.
+## This file is part of the `src-run/bash-bright-library` package.
 ##
 ## (c) Rob Frawley 2nd <rmf@src.run>
 ##
@@ -11,31 +11,28 @@
 
 
 #
-# create output control string with custom formatting
+# write raw string with custom formatting visible
 #
-# @param string $1 controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function _cmd() {
-    _builder_return "${@}" \
-        && _auto_nl \
+function _get() {
+    _builder '@ctl:no-nl' '@ctl:no-reset' '@ctl:no-interpret' "${@}" \
         || return ${?}
 }
 
 
 #
-# output string with custom formatting
+# write string with custom formatting parsed
 #
-# @param string $1 message to output
-# @param string $2 command(s) to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
 function _out() {
-    _builder_output "${@}" \
-        && _auto_nl \
+    _builder '@ctl:auto-nl' '@ctl:auto-reset' '@ctl:interpret' "${@}" \
         || return ${?}
 }

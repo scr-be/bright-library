@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-## This file is part of the `src-run/bright-library` package.
+## This file is part of the `src-run/bash-bright-library` package.
 ##
 ## (c) Rob Frawley 2nd <rmf@src.run>
 ##
@@ -13,525 +13,440 @@
 #
 # output control string with default foreground
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_default() {
-    _builder_return "bg:default" "${@}" \
-        || return ${?}
+function _get_bg_default() {
+    _get '@bg:default' "${@}" || return ${?}
 }
 
 
 #
 # output string with default foreground
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_default() {
-    _builder_output "${1}" "bg:default" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_default() {
+    _get_bg_default '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with black foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_black() {
-    _builder_return "bg:black" "${@:2}" \
-        || return ${?}
+function _get_bg_black() {
+    _get '@bg:black' "${@:2}" || return ${?}
 }
 
 
 #
 # output string with black foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_black() {
-    _builder_output "${1}" "bg:black" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_black() {
+    _get_bg_black '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with red foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_red() {
-    _builder_return "bg:red" "${@:2}" \
-        || return ${?}
+function _get_bg_red() {
+    _get '@bg:red' "${@:2}" || return ${?}
 }
 
 
 #
 # output string with red foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_red() {
-    _builder_output "${1}" "bg:red" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_red() {
+    _get_bg_red '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with green foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_green() {
-    _builder_return "bg:green" "${@:2}" \
-        || return ${?}
+function _get_bg_green() {
+    _get '@bg:green' "${@:2}" || return ${?}
 }
 
 
 #
 # output string with green foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_green() {
-    _builder_output "${1}" "bg:green" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_green() {
+    _get_bg_green '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with yellow foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_yellow() {
-    _builder_return "bg:yellow" "${@:2}" \
-        || return ${?}
+function _get_bg_yellow() {
+    _get '@bg:yellow' "${@:2}" || return ${?}
 }
 
 
 #
 # output string with yellow foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_yellow() {
-    _builder_output "${1}" "bg:yellow" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_yellow() {
+    _get_bg_yellow '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with blue foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_blue() {
-    _builder_return "bg:blue" "${@}" \
-        || return ${?}
+function _get_bg_blue() {
+    _get '@bg:blue' "${@}" || return ${?}
 }
 
 
 #
 # output string with blue foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_blue() {
-    _builder_output "${1}" "bg:blue" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_blue() {
+    _get_bg_blue '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with magenta foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_magenta() {
-    _builder_return "bg:magenta" "${@}" \
-        || return ${?}
+function _get_bg_magenta() {
+    _get '@bg:magenta' "${@}" || return ${?}
 }
 
 
 #
 # output string with magenta foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_magenta() {
-    _builder_output "${1}" "bg:magenta" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_magenta() {
+    _get_bg_magenta '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with cyan foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_cyan() {
-    _builder_return "bg:cyan" "${@}" \
-        || return ${?}
+function _get_bg_cyan() {
+    _get '@bg:cyan' "${@}" || return ${?}
 }
 
 
 #
 # output string with cyan foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_cyan() {
-    _builder_output "${1}" "bg:cyan" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_cyan() {
+    _get_bg_cyan '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with white foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_white() {
-    _builder_return "bg:white" "${@}" \
-        || return ${?}
+function _get_bg_white() {
+    _get '@bg:white' "${@}" || return ${?}
 }
 
 
 #
 # output string with white foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_white() {
-    _builder_output "${1}" "bg:white" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_white() {
+    _get_bg_white '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with black foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_black() {
-    _builder_return "bg:light-black" "${@}" \
-        || return ${?}
+function _get_bg_light_black() {
+    _get '@bg:light-black' "${@}" || return ${?}
 }
 
 
 #
 # output string with black foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_black() {
-    _builder_output "${1}" "bg:light-black" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_black() {
+    _get_bg_light_black '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with red foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_red() {
-    _builder_return "bg:light-red" "${@}" \
-        || return ${?}
+function _get_bg_light_red() {
+    _get '@bg:light-red' "${@}" || return ${?}
 }
 
 
 #
 # output string with red foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_red() {
-    _builder_output "${1}" "bg:light-red" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_red() {
+    _get_bg_light_red '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with green foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_green() {
-    _builder_return "bg:light-green" "${@}" \
-        || return ${?}
+function _get_bg_light_green() {
+    _get '@bg:light-green' "${@}" || return ${?}
 }
 
 
 #
 # output string with green foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_green() {
-    _builder_output "${1}" "bg:light-green" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_green() {
+    _get_bg_light_green '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with yellow foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_yellow() {
-    _builder_return "bg:light-yellow" "${@}" \
-        || return ${?}
+function _get_bg_light_yellow() {
+    _get '@bg:light-yellow' "${@}" || return ${?}
 }
 
 
 #
 # output string with yellow foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_yellow() {
-    _builder_output "${1}" "bg:light-yellow" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_yellow() {
+    _get_bg_light_yellow '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with blue foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_blue() {
-    _builder_return "bg:light-blue" "${@}" \
-        || return ${?}
+function _get_bg_light_blue() {
+    _get '@bg:light-blue' "${@}" || return ${?}
 }
 
 
 #
 # output string with blue foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_blue() {
-    _builder_output "${1}" "bg:light-blue" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_blue() {
+    _get_bg_light_blue '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with magenta foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_magenta() {
-    _builder_return "bg:light-magenta" "${@}" \
-        || return ${?}
+function _get_bg_light_magenta() {
+    _get '@bg:light-magenta' "${@}" || return ${?}
 }
 
 
 #
 # output string with magenta foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_magenta() {
-    _builder_output "${1}" "bg:light-magenta" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_magenta() {
+    _get_bg_light_magenta '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with cyan foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_cyan() {
-    _builder_return "bg:light-cyan" "${@}" \
-        || return ${?}
+function _get_bg_light_cyan() {
+    _get '@bg:light-cyan' "${@}" || return ${?}
 }
 
 
 #
 # output string with cyan foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_cyan() {
-    _builder_output "${1}" "bg:light-cyan" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_cyan() {
+    _get_bg_light_cyan '@ctl:interpret' "${@}" || return ${?}
 }
 
 
 #
 # output control string with white foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function cmd_bg_light_white() {
-    _builder_return "bg:light-white" "${@}" \
-        || return ${?}
+function _get_bg_light_white() {
+    _get '@bg:light-white' "${@}" || return ${?}
 }
 
 
 #
 # output string with white foreground styled formatting
 #
-# @param string      ${1} string to output
-# @param string|null ...  additional controls to apply
+# @param string ...$1 any of: message, replacements, styles, colors, and controls
 #
 # @return int
 #
 
-function out_bg_light_white() {
-    _builder_output "${1}" "bg:light-white" "${@:2}" \
-        && _auto_nl \
-        || return ${?}
+function _out_bg_light_white() {
+    _get_bg_light_white '@ctl:interpret' "${@}" || return ${?}
 }

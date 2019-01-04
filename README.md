@@ -1,9 +1,9 @@
-# [src-run] bright-library
+# [src-run] bash-bright-library
 
 ## Overview
 
 [Welcome](https://src.run/go/readme_welcome)!
-The `bright-library` provides a light weight collection of bash functions to enable
+The `bash-bright-library` provides a light weight collection of bash functions to enable
 basic console output styling.
 
 ### JTT
@@ -12,8 +12,8 @@ This package represents a single project within a
 [large collection](https://src.run/go/explore) of open-source code released
 under the *Scribe* namespace, comprised of framework-agnostic libraries,
 and a number of Symfony bundles. These projects are authored and maintained
-by [Rob Frawley 2nd](https://src.run/rmf) and 
-[collaborators](https://src.run/bright-library/github_collaborators),
+by [Rob Frawley 2nd](https://src.run/rmf) and
+[collaborators](https://src.run/bash-bright-library/github_collaborators),
 often with the support of [Scribe Inc](https://src.run/go/scribe-home).
 
 ## Contributing
@@ -28,8 +28,8 @@ be joined using the following link
 ### Issues
 
 To report issues or request a new feature use
-[GitHub](https://src.run/bright-library/github_issues)
-or [GitLab](https://src.run/bright-library/gitlab_issues)
+[GitHub](https://src.run/bash-bright-library/github_issues)
+or [GitLab](https://src.run/bash-bright-library/gitlab_issues)
 to start a discussion. Include as much information as possible to aid in
 a quick resolution. Feel free to "ping" the topic if you don't get a
 response within a few days.
@@ -39,7 +39,7 @@ response within a few days.
 You created additional functionality during the use of this package? Send
 it back upstream! *Don't hesitate to submit a pull request!* Beyond the
 brief requirements outlined in the
-[contibuting guide](https://src.run/bright-library/contributing),
+[contibuting guide](https://src.run/bash-bright-library/contributing),
 your [imagination](https://src.run/go/readme_imagination)
 represents the only limitation.
 
@@ -50,5 +50,5 @@ This project is licensed under the
 [FSF](https://src.run/go/fsf)-/[OSI](https://src.run/go/osi)-approved
 and [GPL](https://src.run/go/gpl)-compatible, permissive free software
 license. Review the
-[LICENSE](https://src.run/bright-library/license)
+[LICENSE](https://src.run/bash-bright-library/license)
 file distributed with this source code for additional information.

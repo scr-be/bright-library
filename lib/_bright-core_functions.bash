@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-## This file is part of the `src-run/bright-library` package.
+## This file is part of the `src-run/bash-bright-library` package.
 ##
 ## (c) Rob Frawley 2nd <rmf@src.run>
 ##
@@ -46,11 +46,34 @@ function _str_trim() {
 
 
 #
-# trim whitespace from beginning and end of string
+# replace dashes with underscores
+#
+
+function _str_search_replace() {
+    local work_string="${1:-$(</dev/stdin)}"
+    local search_vals="${2}"
+    local replacement="${3:-}"
+
+    sed -e "s/${search_vals}/${replacement}/g" 2> /dev/null \
+        <<< "${work_string}"
+}
+
+
+#
+# replace dashes with underscores
 #
 
 function _str_dash_to_underscore() {
-    sed -e 's/-/_/' 2> /dev/null <<< "${1:-$(</dev/stdin)}"
+    _str_search_replace "${1:-$(</dev/stdin)}" '-' '_'
+}
+
+
+#
+# replace underscores with dashes
+#
+
+function _str_underscore_to_dash() {
+    _str_search_replace "${1:-$(</dev/stdin)}" '_' '-'
 }
 
 
@@ -58,8 +81,48 @@ function _str_dash_to_underscore() {
 # removes all non-alphanumeric and dash/underscore characters from string
 #
 
-function _str_only_alpha() {
-    sed 's/[^a-zA-Z0-9_-]//g' 2> /dev/null <<< "${1:-$(</dev/stdin)}"
+function _str_only_alpha_num_underscore_dash() {
+    _str_search_replace "${1:-$(</dev/stdin)}" '[^a-zA-Z0-9_-]'
+}
+
+
+#
+# removes all non-alphanumeric and dash/underscore characters from string
+#
+
+function _str_only_alpha_num_underscore_dash_comma() {
+    _str_search_replace "${1:-$(</dev/stdin)}" '[^a-zA-Z0-9,_-]'
+}
+
+
+#
+# replaces an exclamation mark with a "no-" string (normalizes negatives which
+# can be represented as both "no-" and "!" before a value to "no-value")
+#
+
+function _str_expand_exclamation() {
+    _str_search_replace "${1:-$(</dev/stdin)}" '^!' 'no-'
+}
+
+
+#
+# replaces a plus sign with an "auto-" string (normalizes automatic-state which
+# can be represented as both "auto-" and "+" before a value to "auto-value")
+#
+
+function _str_expand_plus_sign() {
+    _str_search_replace "${1:-$(</dev/stdin)}" '^+' 'auto-'
+}
+
+
+#
+# replaces a plus sign with an "auto-" string (normalizes automatic-state which
+# can be represented as both "auto-" and "+" before a value to "auto-value")
+#
+
+function _str_expand_all_shorthand() {
+    _str_expand_plus_sign <<< "${1:-$(</dev/stdin)}" \
+        | _str_expand_exclamation
 }
 
 
@@ -68,7 +131,7 @@ function _str_only_alpha() {
 #
 
 function _str_only_numbs() {
-    sed 's/[^0-9]//g' 2> /dev/null <<< "${1:-$(</dev/stdin)}"
+    _str_search_replace "${1:-$(</dev/stdin)}" '[^0-9]'
 }
 
 
@@ -91,7 +154,7 @@ function _str_quote() {
 #
 
 function _out_format() {
-    local input="${1:-$(</dev/stdin)}"
+    local input="${1}"
 
     if [[ ${#} -gt 1 ]] && [[ ${1:-$input} = *%* ]]; then
         printf -- "${1:-$input}" "${@:2}" 2> /dev/null
@@ -132,13 +195,11 @@ function _out_stderr() {
 
 
 #
-# Outputs a newline automatically when global configuration is set to do so,
-# otherwise this method performs no actions.
+# Outputs a required newline
 #
 
-function _auto_nl() {
-    [[ ${_BRIGHT_AUTO_NEWLINES} -eq 1 ]] \
-        && _out_format '\n'
+function _out_return_reqd() {
+    _out_format '%s' '\n'
 }
 
 
@@ -147,9 +208,27 @@ function _auto_nl() {
 # otherwise this method performs no actions.
 #
 
-function _auto_reset() {
-    [[ ${_BRIGHT_AUTO_RESET} -eq 1 ]] \
-        && _ansi_control_seq '' "$(_control_reset all)"
+function _out_return_auto() {
+    [[ ${_BRIGHT_AUTO_RETURN} -eq 1 ]] && _out_return_reqd
+}
+
+
+#
+# Outputs a required style reset sequence.
+#
+
+function _out_resets_reqd() {
+    _get_compiled_ansi_sequence "$(_control_reset all)"
+}
+
+
+#
+# Outputs a style reset sequence automatically when global configuration is set
+# to do so, otherwise this method performs no actions.
+#
+
+function _out_resets_auto() {
+    [[ ${_BRIGHT_AUTO_RESETS} -eq 1 ]] && _out_resets_reqd
 }
 
 
@@ -298,7 +377,7 @@ function _error_generic() {
 function _error_invalid_builder_arg() {
     _error_generic \
         "${1}" \
-        'encountered invalid builder argument: either a second message string or an unrecognized control character' \
+        'encountered invalid builder argument (likely an unrecognized control character)' \
         'extras:offending argument' \
         "${@:2}"
 
@@ -487,61 +566,46 @@ function _control_bg() {
     return ${?}
 }
 
-
-function _str_extract_rgb() {
-    local which="${1}"
-    local input=${2:-$(</dev/stdin)}
-
-    case "${which}" in
-        r)
-            grep -o -E '^[0-2]?[0-9]{1,2},' <<< "${input}" | _str_only_numbs
-            ;;
-        b)
-            grep -o -E ',[0-2]?[0-9]{1,2},' <<< "${input}" | _str_only_numbs
-            ;;
-        g)
-            grep -o -E ',[0-2]?[0-9]{1,2}$' <<< "${input}" | _str_only_numbs
-            ;;
-    esac
-}
-
 #
 # return the control value for the passed rgb string and context
 #
 function _control_rgb() {
-    local rgb="${1}"
-    local int="${2:-38}"
+    local c="${1}"
+    local t="${2:-38}"
     local r
     local b
     local g
 
-    if [[ ${int} -ne 38 ]] && [[ ${int} -ne 48 ]]; then
-        _error_rgb_control_context "${FUNCNAME[*]}" "${int}"
-        return 255
+    if [[ ${t} -ne 38 ]] && [[ ${t} -ne 48 ]]; then
+        _error_rgb_control_context "${FUNCNAME[*]}" "${t}" || return 255
     fi
 
-    r="$(_str_extract_rgb r <<< "${rgb}")"
+    r=$(
+        awk -F"," '{print $1}' <<< "${c}" 2> /dev/null \
+            | _str_only_numbs
+    )
+    b=$(
+        awk -F"," '{print $2}' <<< "${c}" 2> /dev/null \
+            | _str_only_numbs
+    )
+    g=$(
+        awk -F"," '{print $3}' <<< "${c}" 2> /dev/null \
+            | _str_only_numbs
+    )
 
     if [[ -z ${r} ]] || [[ ${r} -lt 0 ]] || [[ ${r} -gt 255 ]]; then
-        _error_rgb_control_value "${FUNCNAME[*]}" "${r}"
-        return 255
+        _error_rgb_control_value "${FUNCNAME[*]}" "${r}" || return ${?}
     fi
-
-    b="$(_str_extract_rgb b <<< "${rgb}")"
 
     if [[ -z ${b} ]] || [[ ${b} -lt 0 ]] || [[ ${b} -gt 255 ]]; then
-        _error_rgb_control_value "${FUNCNAME[*]}" "${b}"
-        return 255
+        _error_rgb_control_value "${FUNCNAME[*]}" "${b}" || return ${?}
     fi
-
-    g="$(_str_extract_rgb g <<< "${rgb}")"
 
     if [[ -z ${g} ]] || [[ ${g} -lt 0 ]] || [[ ${g} -gt 255 ]]; then
-        _error_rgb_control_value "${FUNCNAME[*]}" "${g}"
-        return 255
+        _error_rgb_control_value "${FUNCNAME[*]}" "${g}" || return ${?}
     fi
 
-    _out_format '%d;2;%d;%d;%d' "${int}" "${r}" "${b}" "${g}"
+    _out_format '%d;2;%d;%d;%d' "${t}" "${r}" "${b}" "${g}"
 }
 
 #
@@ -591,17 +655,15 @@ function _is_type() {
 
 
 #
-#
+# checks if the passed argument value is a definition of the expected type(s)
 #
 
-function _is_control_instruction() {
-    local -a ctl_keys=(fg fg-rgb bg bg-rgb style reset)
-    local    ctl_name="${1}"
-    local    ctl_size
+function _is_instruction() {
+    local -a keys=("${@:1}")
+    local    name="${1}"
 
-    for k in "${ctl_keys[@]}"; do
-        ctl_size=$(( ${#k} + 2 ))
-        if [[ ${ctl_name:0:$ctl_size} == "@${k}:" ]]; then
+    for k in "${keys[@]}"; do
+        if [[ ${name:0:$(( ${#k} + 2 ))} == "@${k}:" ]]; then
             return 0
         fi
     done
@@ -611,49 +673,204 @@ function _is_control_instruction() {
 
 
 #
+# checks if the passed name matches the expected control instruction format
+#
+
+function _is_instruction_style_definition() {
+    _is_instruction "${1}" 'fg' 'fg-rgb' 'bg' 'bg-rgb' 'style' 'reset' \
+        || return $?
+}
+
+
+#
+# checks if the passed name matches the expected control instruction format
+#
+
+function _is_instruction_control_definition() {
+    _is_instruction "${1}" 'ctl' \
+        || return $?
+}
+
+
+#
+# parses the key string from the combined instruction and sanitizes it for use
+#
+
+function _get_instruction_index() {
+    _str_trim <<< "${1%%:*}" \
+        | _str_dash_to_underscore \
+        | _str_only_alpha_num_underscore_dash
+}
+
+
+#
+# parses the val string from the combined instruction and sanitizes it for use
+#
+
+function _get_instruction_value() {
+    _str_trim <<< "${1#*:}" \
+        | _str_underscore_to_dash \
+        | _str_expand_all_shorthand \
+        | _str_only_alpha_num_underscore_dash_comma
+}
+
+
+#
+# parses the cmd string from the combined instruction and sanitizes it for use
+#
+
+function _get_instruction_sfunc() {
+    _out_format '_control_%s' "$(_get_instruction_index "${1}")"
+}
+
+
+#
+# removes state prefix from control value (such as removing "no-" or "auto-")
+#
+function _get_control_no_prefix() {
+    sed -E 's/^([a-z]+-)?(.+)/\2/g' <<< "$(_get_instruction_value "${1}")"
+}
+
+
+#
+# return an integer state for the passed control value (-1 for auto, 0 for no,
+# and 1 for enabled).
+#
+function _get_control_state() {
+    local ctrl_value="${1}"
+
+    case "${ctrl_value}" in
+        auto-* ) _out_format -1 ;;
+        no-*   ) _out_format  0 ;;
+        *      ) _out_format  1 ;;
+    esac
+}
+
+
+
+#
+# Output ANSI control sequence with the relevant text.
+#
+
+function _get_compiled_ansi_sequence() {
+    local codes
+
+    until [[ $# -eq 0 ]]; do
+        codes+="${codes:+;}${1}"
+        shift || break
+    done
+
+    [[ ${#ansi_codes} -gt 0 ]] \
+        && _out_format '\%s[%sm' '033' "${codes}" \
+        || _out_format ''
+}
+
+
+#
+# TODO
+#
+
+function _out_compiled_string() {
+    local out_codes="${1:-}"
+    local out_value="${2:-}"
+    local do_interp=${3:-0}
+    local do_resets=${4:-0}
+    local do_return=${5:-0}
+    local out_sfunc
+
+    [[ ${do_interp} -eq 1 ]] \
+        && out_sfunc='_out_interp' \
+        || out_sfunc='_out_format'
+
+    ${out_sfunc} '%s%s' "${out_codes}" "${out_value}"
+
+    [[ ${do_resets} -eq -1 ]] && ${out_sfunc} '%s' "$(_out_resets_auto)"
+    [[ ${do_resets} -eq  1 ]] && ${out_sfunc} '%s' "$(_out_resets_reqd)"
+    [[ ${do_return} -eq -1 ]] && ${out_sfunc} '%s' "$(_out_return_auto)"
+    [[ ${do_return} -eq  1 ]] && ${out_sfunc} '%s' "$(_out_return_reqd)"
+}
+
+
+#
 # build the output string based on the passed control commands
 #
 
 function _builder() {
-    local    str
-    local    cmd
-    local    ret
-    local    ctl_key
-    local    ctl_val
-    local -a ctl_codes
+    local -a ansi_codes
+    local    ansi_tcode
+
+    local    inst_index
+    local    inst_value
+    local    inst_named
+
+    local    out_string
+    local    out_interp=0
+    local    out_resets=-1
+    local    out_return=-1
 
     until [[ ${#} -eq 0 ]] && [[ -z ${1} ]]; do
-        if _is_control_instruction "${1}"; then
+        if _is_instruction_style_definition "${1}"; then
             for c in ${1}; do
-                ctl_val="$(_str_trim <<< "${c#*:}")"
-                ctl_key="$(_str_trim <<< "${c%%:*}" | _str_dash_to_underscore | _str_only_alpha)"
-                cmd="_control_${ctl_key}"
+                inst_named=$(_get_instruction_sfunc "${c}")
+                inst_value=$(_get_instruction_value "${c}")
 
-                if ! _is_type 'function' "${cmd}"; then
-                    _error_invalid_type "${FUNCNAME[*]}" 'function' "${cmd}"
+                if ! _is_type 'function' "${inst_named}"; then
+                    _error_invalid_type "${FUNCNAME[*]}" 'function' "${inst_named}"
                     continue
                 fi
 
-                if ! ret="$(${cmd} "${ctl_val}")"; then
-                    _error_non_zero_func "${FUNCNAME[*]}" "${cmd}"
+                if ! ansi_tcode="$(${inst_named} "${inst_value}")"; then
+                    _error_non_zero_func "${FUNCNAME[*]}" "${inst_named}"
                     continue
                 fi
 
-                ctl_codes+=("${ret}")
+                ansi_codes+=("${ansi_tcode}")
             done
+        elif _is_instruction_control_definition "${1}"; then
+            inst_index=$(_get_instruction_index "${1}")
+            inst_named=$(_get_control_no_prefix "${1}")
+            inst_value=$(_get_instruction_value "${1}")
+
+            case "${inst_index}" in
+                ctl)
+                    case "${inst_named}" in
+                        nl|newline|return)
+                            out_return=$(_get_control_state "${inst_value}")
+                            ;;
+                        r|reset|clear)
+                            out_resets=$(_get_control_state "${inst_value}")
+                            ;;
+                        i|interp|interpret)
+                            out_interp=$(_get_control_state "${inst_value}")
+                            ;;
+                    esac
+                    ;;
+
+                * )
+                    _error_invalid_builder_arg "${FUNCNAME[*]}" "${1}"
+                    shift || break
+                    continue
+                    ;;
+            esac
         else
-            if [[ -n ${str} ]]; then
+            if [[ -n ${out_string} ]]; then
                 _error_invalid_builder_arg "${FUNCNAME[*]}" "${1}"
+                shift || break
                 continue
             fi
 
-            str="${1}"
+            out_string="${1}"
         fi
 
         shift || break
     done
 
-    _ansi_control_seq "${str:-}" "${ctl_codes[@]}"
+    _out_compiled_string \
+        "$(_get_compiled_ansi_sequence "${ansi_codes[@]}")" \
+        "${out_string}" \
+        "${out_interp}" \
+        "${out_resets}" \
+        "${out_return}"
 }
 
 
@@ -662,7 +879,7 @@ function _builder() {
 #
 
 function _builder_return() {
-    _builder "${@}" \
+    _builder '@ctl:no-nl' '@ctl:no-reset' '@ctl:no-interpret' "${@}" \
         || return ${?}
 }
 
@@ -672,29 +889,6 @@ function _builder_return() {
 #
 
 function _builder_output() {
-    (_builder "${@}" && _auto_reset) | _out_interp \
+    _builder '@ctl:auto-nl' '@ctl:auto-reset' '@ctl:interpret' "${@}" \
         || return ${?}
-}
-
-
-
-#
-# Output ansi control sequence with the relevant text.
-#
-
-function _ansi_control_seq() {
-    local message="${1}"
-    shift
-    local control
-
-    until [[ $# -eq 0 ]]; do
-        control+="${control:+;}${1}"
-        shift || break
-    done
-
-    if [[ ${#control} -eq 0 ]]; then
-        _out_format "${message}"
-    else
-        _out_format "\%s[%sm%s" '033' "${control}" "${message}"
-    fi
 }
